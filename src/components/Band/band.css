@@ -1,0 +1,94 @@
+.band{
+    position: relative;
+    margin-block:var(--gc-margin-vertical);
+
+    &:before{
+        content: '';
+        display: block;
+        position: absolute;
+        width: 200vw;
+        height: 100%;
+        left: -50vw;
+        z-index: -1;
+        top:0;
+    }
+
+    &.band--grey{
+        &:before{
+            background: var(--gc-color-earth-clay);
+        }
+    }
+
+    &.band--black{
+        color:white;
+
+        &:before{
+            background-color:black;
+        }
+
+        h1,h2,h3,h4{
+            color: var(--gc-color-earth-clay);
+        }
+
+        /* The site-wide link color (dark olive) is tuned for contrast on
+           white and only hits ~3.7:1 here — fails for body-text-size links.
+           The full brand yellow-green is the inverse: near-white contrast
+           problems, ~17.6:1 on black — so use it here instead. Hover goes
+           to white rather than the usual black (which would vanish). */
+        a{
+            color: var(--ifm-color-primary);
+            text-decoration: underline;
+        }
+
+        a:hover{
+            color: white;
+        }
+    }
+
+    &.band--green{
+        &:before{
+            background: var(--ifm-color-primary);
+        }
+    }
+
+    &.band--background{
+        color: white;
+
+        &:before{
+            background: rgba(0, 0, 0, .55);
+        }
+
+        &:after{
+            content: '';
+            display: block;
+            position: absolute;
+            width: 100vw;
+            height: 100%;
+            left: 50%;
+            top: 0;
+            z-index: -2;
+            transform: translateX(-50%);
+            background-image: var(--band-background-image);
+            background-size: cover;
+            background-position: center;
+        }
+
+        .button--outline{
+            --ifm-button-border-color: white;
+            --ifm-button-color: white;
+        }
+
+        .button--outline:hover,
+        .button--outline:active,
+        .button--outline.button--active{
+            --ifm-button-color: black;
+        }
+    }
+
+    .container{
+        .row{
+            padding-block:var(--gc-padding-vertical);
+        }
+    }
+
+}

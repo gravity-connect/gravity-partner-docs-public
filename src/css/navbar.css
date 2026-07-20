@@ -1,0 +1,51 @@
+  /* VARIABLES */
+:root{
+  --ifm-navbar-background-color: transparent;
+  --ifm-navbar-link-color: var(--gc-color-white);
+  --ifm-navbar-link-hover-color: var(--ifm-color-primary);
+  --ifm-navbar-shadow: none;
+  --ifm-navbar-padding-vertical: 0;
+}
+
+#__docusaurus > nav.navbar{
+  padding:0;
+  background:black;
+  position:fixed;
+  top:0;
+  left:0;
+  width:100vw;
+
+  .navbar__inner{
+    margin: 0 auto;
+    padding: 0 var(--ifm-spacing-horizontal);
+  }
+}
+
+
+.home-page{
+  #__docusaurus > nav{
+    background:transparent;
+
+    .navbar__inner{
+      max-width: var(--ifm-container-width);
+
+      @media (min-width: 1440px) {
+        max-width: var(--ifm-container-width-xl);
+      }
+    }
+  }
+}
+
+.scrolled{
+  #__docusaurus > nav{
+    background:black;
+  }
+}
+
+.navbar__toggle{
+  color: white;
+}
+
+.navbar-sidebar{
+  background:black;
+}

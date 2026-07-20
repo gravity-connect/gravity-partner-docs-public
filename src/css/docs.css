@@ -1,0 +1,55 @@
+/*
+  Docs ("Guides") sidebar + TOC, and the blog's "Recent Posts" sidebar, all
+  default their active-item style to brand-yellow text directly on white (or
+  near-white) — well under WCAG AA contrast. Swap all three to solid brand
+  yellow with black text so the active state is readable and every nav on
+  the site matches. `sidebarItemLinkActive` is a hashed CSS-module class
+  from the blog plugin (`[class*=]` so it survives the hash changing on a
+  Docusaurus upgrade).
+
+  The blog plugin's own rule for that class is also `!important`, and (per
+  devtools' matched-styles output) it ships inside Docusaurus's `docusaurus`
+  cascade layer (see the `@layer overrides, docusaurus;` declaration in
+  docusaurus.config.ts head tags). Per the Cascade Layers spec, layer
+  assignment decides `!important` conflicts *before* specificity is ever
+  consulted, and unlayered styles (which is what this whole file is) rank
+  below every named layer for importance purposes — so a plain unlayered
+  `!important` here can never beat theirs, no matter how specific the
+  selector. Opting into the `overrides` layer (declared first, so it wins
+  the reversed important-tier ordering) is what actually fixes it.
+*/
+@layer overrides{
+    .menu__link--active,
+    .table-of-contents__link--active,
+    .sidebarItemLinkActive_I1ZP,
+    [class*="sidebarItemLinkActive"]{
+        background-color: var(--ifm-color-primary) !important;
+        color: var(--gc-color-black) !important;
+        border-radius: 4px;
+    }
+
+    .table-of-contents__link--active,
+    [class*="sidebarItemLinkActive"]{
+        padding: 4px 10px;
+    }
+}
+
+/*
+  The current-page breadcrumb crumb is a <span>, not a link (confirmed via
+  inspection — only the "Home" icon crumb before it is an <a>), but Infima
+  still colors it with the brand yellow-green on a light background, which
+  both fails contrast and wrongly implies it's interactive. Plain black.
+*/
+.breadcrumbs__item--active .breadcrumbs__link{
+    color: var(--gc-color-black) !important;
+}
+
+/*
+  Infima only underlines links on hover by default, so at rest a link is
+  distinguished from body text by color alone — fails WCAG 1.4.1. Underline
+  content links (docs + blog both render through `.markdown`) at rest;
+  navbar/footer/buttons have their own explicit styling and are unaffected.
+*/
+.markdown a{
+    text-decoration: underline;
+}

@@ -1,0 +1,44 @@
+.banner{
+    background: var(--gc-color-black) repeat center top;
+    background-image: url(../../../static/img/grid.svg);
+    background-size: 142px;
+    color: white;
+    position: relative;
+
+    @media(min-width:1440px){
+        background-size: 132px;
+    }
+
+    &:before {
+        content: '';
+        display: block;
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 300px;
+        width: 100%;
+        background: linear-gradient(0deg,rgba(0, 0, 0, 1) 0%, rgba(0, 0, 0, 0) 100%);
+    }
+
+    &.HomeBanner{
+        .container{
+            .row{
+                padding-top: calc(12vh + 60px);
+                padding-bottom: 17vh;
+            }
+        }
+    }
+
+    .container{
+        padding-top: 60px;
+        border-left:1px solid var(--gc-border-grey);
+        border-right:1px solid var(--gc-border-grey);
+        z-index: 1;
+        position: relative;
+
+        .row{
+            padding-top: calc(5vh + 60px);
+            padding-bottom: 7vh;
+        }
+    }
+}

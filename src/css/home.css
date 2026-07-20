@@ -1,0 +1,55 @@
+.home-page{
+
+    section{
+        margin-block:0px !important;
+    }
+
+    .container{
+        flex-grow:1;
+        border-left:1px solid var(--gc-border-grey);
+        border-right:1px solid var(--gc-border-grey);
+
+        .row{
+
+            section:first-of-type{
+                margin-top:0px !important;
+            }
+
+            section:last-of-type{
+                margin-bottom:0px !important;
+            }
+        }
+    }
+
+    h1{
+        --ifm-h1-font-size: 3rem;
+    }
+
+    h2{
+        --ifm-h2-font-size: 2rem;
+    }
+
+    h3{
+        --ifm-h3-font-size: 1.5rem;
+    }
+
+    h5{
+        font-size:15px;
+        font-weight:600;
+        letter-spacing: .5px;
+        position: relative;
+    }
+
+    h5:before{
+        content:'';
+        width:10px;
+        height:10px;
+        background:var(--gc-border-grey);
+        border-radius:100%;
+        position:absolute;
+        left: -37px;
+        top:50%;
+        transform:translateY(-50%);
+    }
+
+}

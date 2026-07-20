@@ -1,0 +1,106 @@
+/*
+  Redoc's sidebar (.menu-content) is `position: sticky; top: 0; height: 100vh`
+  by default, which collides with the site's fixed 60px navbar once the page
+  scrolls. Offset it by the navbar height instead of touching page scroll.
+  These are real static classNames Redoc applies (verified in the standalone
+  bundle), not styled-components hashes, so they're safe to target directly.
+*/
+.redoc-wrap .menu-content{
+    top: 60px !important;
+    height: calc(100vh - 60px) !important;
+    padding-top: 1.5rem;
+}
+
+/*
+  "PATH PARAMETERS" / "HEADER PARAMETERS" / "Request Body schema" labels —
+  all real <h5> tags sharing one class, used for nothing else on this page.
+  Default color is a low-contrast grey with an unnecessary underline (the
+  tables below already have their own borders).
+*/
+.redoc-wrap h5{
+    color: var(--gc-color-black);
+    border-bottom: none;
+}
+
+/*
+  Parameter/schema field tables are real <table><tr><td> markup with two
+  columns (field name, then type/description).
+*/
+.redoc-wrap table{
+    width: 100% !important;
+    table-layout: fixed;
+    border-collapse: collapse;
+}
+
+/* Fixed width so the field-name column lines up the same across every table. */
+.redoc-wrap table td:first-child{
+    width: 220px;
+}
+
+/*
+  The first td already gets padding from the theme's spacing.unit, but the
+  second one doesn't, so its content sits flush against the column divider
+  (and, when text wraps, against the right border too).
+*/
+.redoc-wrap table td:nth-child(2){
+    padding-left: 1rem !important;
+    padding-right: 1rem !important;
+}
+
+/*
+  Redoc draws a decorative corner-bracket "guide line" before each field
+  name to visually group nested properties (an empty span, purely CSS-
+  drawn). `kind="field"` is a real attribute Redoc sets, unlike its
+  styled-components classNames, so it's a stable way to target this.
+*/
+.redoc-wrap td[kind="field"] > span:first-child{
+    display: none;
+}
+
+/* The vertical line connecting grouped rows is a background-image on the
+   cell itself (a repeating gradient) in some rows and a plain border-left
+   in others — remove both. */
+.redoc-wrap td[kind="field"]{
+    background-image: none !important;
+    border-left: none !important;
+}
+
+/* The "required" label was indented to clear the corner-bracket span above —
+   now that it's hidden, drop the indent so it lines up with the field name. */
+.redoc-wrap td[kind="field"] > div{
+    padding-left: 0 !important;
+    margin-left: 0 !important;
+    text-indent: 0 !important;
+}
+
+/*
+  Sample-picker tabs on the dark right panel: the Payload/Schema toggle
+  (`.react-tabs__tab`) and the response status-code toggle (`.tab-success`,
+  `.tab-error`, `.tab-redirect`, `.tab-info`) are real react-tabs classNames.
+  Unselected tabs render their status color (e.g. dark red) directly on the
+  panel's near-black background, which fails contrast — bump to white.
+  Selected tabs get the brand accent instead of Redoc's default white pill.
+*/
+.react-tabs__tab,
+.tab-success,
+.tab-error,
+.tab-redirect,
+.tab-info{
+    color: var(--gc-color-white) !important;
+}
+
+.react-tabs__tab--selected{
+    background: var(--ifm-color-primary) !important;
+    color: var(--gc-color-black) !important;
+}
+
+/*
+  "Request samples" / "Response samples" headings share one styled-component
+  class (verified via inspection: sc-kkmxCq) that's distinct from every other
+  heading Redoc renders — including the "Responses" accordion title, which
+  uses a different component — so this only ever matches these two labels.
+  They sit flush against the endpoint path bar above with no breathing room.
+*/
+h3.sc-kkmxCq{
+    margin-top: 1.5rem;
+}

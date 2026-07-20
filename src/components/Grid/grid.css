@@ -1,0 +1,22 @@
+.grid{
+    .container{
+        padding-block:var(--gc-padding-vertical);
+    }
+
+    .col{
+        padding: var(--ifm-spacing-horizontal);
+        
+        @media(min-width:997px){
+            border-block:1px solid var(--gc-border-grey);
+            border-right:1px solid var(--gc-border-grey);
+
+            &:last-of-type{
+                border-right:0px;
+            }
+        }
+
+        img{
+            margin-bottom: var(--ifm-spacing-horizontal);
+        }
+    }
+}

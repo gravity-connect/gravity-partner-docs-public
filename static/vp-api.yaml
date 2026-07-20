@@ -1,0 +1,412 @@
+openapi: 3.0.0
+info:
+  description: "{{CONDENSED_DESCRIPTION}}"
+  version: 2.0.5
+  title: Gravity Connect API (Virtual Peaker)
+  license:
+    name: BSD
+
+servers:
+  - url: 'https://partner.virtualpeaker.io/v1'
+
+tags:
+- name: Publishing
+  description: |
+    All of the endpoints below allow the Device Partner to publish data to the Virtual Peaker platform, which avoids Virtual Peaker having to constantly poll the data when there haven't been any changes. Part of the [Device Partner Implementation](example.com) does include endpoint to read poll for data, which could be used by Virtual Peaker to gather the first batch of data or for debugging.
+
+    **Notes:**
+    - The maximum supported payload size for all requests listed below is 262,144 bytes.
+    
+paths:
+  '/publish/{PROGRAM_PUBLISH_KEY}/update':
+    post:
+      summary: Publish signal/setting value
+      description: This endpoint publishes device data to Virtual Peaker. The signal and setting types vary by device type. Please reference the [Device Specific Definitions section](device-partner-api.html#section/Device-Specific-Definitions) to see the signals and settings for each device. Also, a required field is required overall for that device although not required every time data is reported for that device.
+      operationId: publishSignalSetting
+      tags:
+        - Publishing
+      parameters:
+        - $ref: "#/components/parameters/DeviceHMAC"
+        - $ref: "#/components/parameters/programPublishKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - uid
+                  - kind
+                  - signal
+                  - setting
+                properties:
+                  uid:
+                    type: string
+                    description: The partner's unique device identifier
+                  kind:
+                    $ref: "#/components/schemas/DeviceKindEnum"
+                  signal:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SignalSetting'
+                  setting:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/SignalSetting'
+      responses:
+        '202':
+          $ref: "#/components/responses/accepted"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/publish/{PROGRAM_PUBLISH_KEY}/command':
+    post:
+      summary: Publish command status
+      description: Used to report back the status of a command. For more details please reference the FAQs
+      operationId: publishCommand
+      tags:
+        - Publishing
+      parameters:
+        - $ref: "#/components/parameters/HMAC"
+        - $ref: "#/components/parameters/programPublishKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CommandState"
+                - required:
+                  - refId
+      responses:
+        '202':
+          $ref: "#/components/responses/accepted"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/publish/{PROGRAM_PUBLISH_KEY}/command/device':
+    post:
+      summary: Publish device command status
+      description: Only used if grouping is being used. For more details please reference the FAQs
+      operationId: publishDeviceCommand
+      tags:
+        - Publishing
+      parameters:
+        - $ref: "#/components/parameters/HMAC"
+        - $ref: "#/components/parameters/programPublishKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              allOf:
+                - $ref: "#/components/schemas/CommandState"
+                - required:
+                    - refId
+                    - uid
+                  properties:
+                    uid:
+                      type: string
+                      description: DEVICE UID
+      responses:
+        '202':
+          $ref: "#/components/responses/accepted"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/publish/{PROGRAM_PUBLISH_KEY}/device':
+    post:
+      summary: Publish device enrollment status
+      description: "If using OAuth Device Onboarding, devices are assumed to be enrolled when initially discovered."
+      operationId: publishDeviceEnrollment
+      tags:
+        - Publishing
+      parameters:
+        - $ref: "#/components/parameters/HMAC"
+        - $ref: "#/components/parameters/programPublishKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - state
+                  - device
+                  - time
+                properties:
+                  state:
+                    type: string
+                    enum:
+                      - enrolled
+                      - unenrolled
+                  device:
+                    $ref: "#/components/schemas/DeviceDetails"
+                  time:
+                    type: string
+                    format: date-time
+                  pairingCode:
+                    type: string
+                    description: "Only passed if using Pairing Code Device Discovery. \nThe current format is:\n* 2 alphanumeric characters to denote the pairing code prefix representing the program\n* 5 random numeric characters that VP uses to link the user to an existing device\n* 1 check digit. This check digit will be generated following the Luhn algorithm to ensure the 5 digit number is valid. This validation can be performed on the device partner side to provide immediate feedback, but will also be done within our API."
+      responses:
+        '202':
+          $ref: "#/components/responses/accepted"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/publish/{PROGRAM_PUBLISH_KEY}/enrollment':
+    post:
+      summary: Publish device partner driven enrollment
+      description: Used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.
+      operationId: publishDevicePartnerDrivenEnrollment
+      tags:
+        - Publishing
+      parameters:
+        - $ref: "#/components/parameters/HMAC"
+        - $ref: "#/components/parameters/programPublishKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - devices
+                  - time
+                  - site
+                properties:
+                  time:
+                    type: string
+                    format: date-time
+                    description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+                  devices:
+                    type: array
+                    items:
+                      $ref: "#/components/schemas/DeviceDetails"
+                  site:
+                    $ref: "#/components/schemas/UserDetails"
+      responses:
+        '202':
+          $ref: "#/components/responses/accepted"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+
+components:
+  requestBodies:
+    manageGroup:
+      required: true
+      content:
+        application/json:
+          schema:
+              type: object
+              required:
+                - deviceUids
+                - action
+              properties:
+                deviceUids:
+                  type: array
+                  description: Array of device uids for the Device Partner to assign to or remove from the group
+                  items:
+                    type: string
+                action:
+                  type: string
+                  enum:
+                    - add
+                    - remove
+  parameters:
+    programPublishKey:
+      name: PROGRAM_PUBLISH_KEY
+      in: path
+      required: true
+      description: The identifier of the program within Virtual Peaker
+      schema:
+        type: string
+    DeviceHMAC:
+      in: header
+      name: Authorization
+      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)"
+      schema:
+        type: string
+        pattern: '^Publish [a-f\d]+$'
+      required: true
+    HMAC:
+      in: header
+      name: Authorization
+      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)"
+      schema:
+        type: string
+        pattern: '^Publish [a-f\d]+$'
+      required: true
+  schemas:
+    DeviceKindEnum:
+      type: string
+      enum:
+        - HWH
+        - TSTAT
+        - BATTERY
+        - EVSE
+        - V2G
+        - STORAGE-HVAC
+    DeviceDetails:
+      type: object
+      required:
+        - uid
+        - kind
+        - type
+      properties:
+        uid:
+          type: string
+          description: DEVICE_UID, unique within the partner
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
+          type: string
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
+    CommandState:
+      type: object
+      required:
+        - state
+        - time
+      properties:
+        state:
+          type: string
+          description: "State of the command:\n* PENDING - scheduled but not started\n* IN_PROGRESS - when pending command hits start time\n* FAILED - something has prevented the command from being scheduled or started\n* OPT_OUT - device owner has specified that they don’t want to participate in an event\n* CANCELLED - utility has said they don’t want the event to happen\n* COMPLETED - end time of event has been reached without becoming CANCELLED or OPT_OUT"
+          enum:
+              - PENDING
+              - IN_PROGRESS
+              - FAILED
+              - OPT_OUT
+              - CANCELLED
+              - COMPLETED
+        description:
+          type: string
+          description: human readable status
+        time:
+          type: string
+          format: date-time
+          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+        refId:
+          type: string
+          description: Command Reference ID
+    SignalSetting:
+      type: object
+      required:
+        - key
+        - value
+        - time
+      properties:
+        key:
+          type: string
+        value:
+          oneOf:
+            - type: string
+            - type: number
+        time:
+          type: string
+          format: date-time
+          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    Details:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A human readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    ServiceAddress:
+      type: object
+      description: Service address associated with the user account. Optional, but strongly recommended. 
+      properties:
+        streetAddress:
+          type: string
+        streetAddress2:
+          type: string
+        city:
+          type: string
+        state:
+          type: string
+          description: Within the US, passed as a 2 letter abbreviation
+        postalCode:
+          type: string
+        country:
+          type: string
+          description: A 2 letter indication of country. Defaults to 'US'. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    UserDetails:
+      type: object
+      required:
+        - email
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user within the device partner's platform
+        email:
+          type: string
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        firstName:
+          type: string
+        lastName:
+          type: string
+        serviceAddress:
+          description: 'Optional but strongly recommended'
+          $ref: '#/components/schemas/ServiceAddress'
+  responses:
+    accepted:
+      description: Message has been accepted for processing
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details" # Message has been accepted for processing
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details" # TSAT is not a valid kind.
+    unauthorized:
+      description: HMAC validation failed
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details" # Authorization Header Validation Failed

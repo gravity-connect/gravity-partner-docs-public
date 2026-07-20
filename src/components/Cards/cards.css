@@ -1,0 +1,50 @@
+.cards{
+    .container{
+        padding-block:var(--gc-padding-vertical);
+
+        .row{
+            .col{
+                display:flex;
+                flex-direction: column;
+                margin-bottom: calc(var(--ifm-spacing-horizontal) * 2);
+            }
+        }
+    }
+
+    .card{
+        background: var(--gc-color-grey);
+        border-radius: 15px;
+        padding:90px 90px 15px 20px;
+        position: relative;
+        flex-grow:1;
+        display:flex;
+        flex-direction: column;
+        justify-content: flex-end;
+
+        img{
+            width:50px;
+            height:50px;
+            position:absolute;
+            bottom:20px;
+            right:20px;
+        }
+
+        h3{
+            margin:0px;
+        }
+
+        p{
+            margin:5px 0 0 0;
+        }
+        
+    }
+}
+
+.home-page{
+    .cards{
+        .container{
+            padding-top:0px !important;
+        }
+    }
+}
+

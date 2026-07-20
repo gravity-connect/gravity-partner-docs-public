@@ -1,0 +1,15 @@
+release-notes:
+  label: Release Notes
+  description: Updates and changes to the Gravity Connect specification
+
+announcement:
+  label: Announcement
+  description: News and announcements from Virtual Peaker
+
+integration:
+  label: Integration
+  description: Guides and updates related to building integrations
+
+certification:
+  label: Certification
+  description: Updates related to the certification testing process

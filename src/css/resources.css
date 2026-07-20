@@ -1,0 +1,13 @@
+article{
+    > footer{
+        margin:15px 0 0 0;
+
+        .row{
+            margin:0;
+        }
+    }
+
+    .avatar{
+        display:none;
+    }
+}

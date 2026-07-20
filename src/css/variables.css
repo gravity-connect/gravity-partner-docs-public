@@ -1,0 +1,46 @@
+:root {
+
+  /* Global Overrides */
+  --ifm-global-spacing: 2rem;
+  --ifm-toc-border-color: transparent;
+  --ifm-button-color: var(--gc-color-black);
+  
+  /* Primary brand color — Gravity Yellow-Green */
+  --ifm-color-primary: #C3FF1E;
+  --ifm-color-primary-dark: #aff00a;
+  --ifm-color-primary-darker: #a5e409;
+  --ifm-color-primary-darkest: #89bc07;
+  --ifm-color-primary-light: #ccff3e;
+  --ifm-color-primary-lighter: #d1ff52;
+  --ifm-color-primary-lightest: #deff7a;
+
+  /* Brand supporting colors */
+  --gc-color-earth-clay: #BDC6AF;
+  --gc-color-grey: #D9D9D9;
+  --gc-color-black: #000000;
+  --gc-color-white: #ffffff;
+
+  /* In-content link color: the brand yellow-green fails text contrast on
+     white (even --ifm-color-primary-darkest is only ~2:1), so links use a
+     darkened shade of the same hue instead. Hover goes to plain black —
+     no need for a brand-color hover treatment, the underline already marks
+     it as a link. --ifm-color-primary itself is untouched — this only
+     affects link color, not buttons, active nav states, etc. */
+  --ifm-link-color: #527000;
+  --ifm-link-hover-color: var(--gc-color-black);
+
+  /* Border colors */
+  --gc-border-grey: #3E3D3D;
+
+  /* Code blocks */
+  --ifm-code-font-size: 95%;
+  --docusaurus-highlighted-code-line-bg: rgba(195, 255, 30, 0.15);
+  
+  /* Spacing */
+  --gc-padding-vertical: calc(7.5vh + 45px);
+  --gc-margin-vertical: calc(3vh + 45px);
+
+  /* Headings */
+  --ifm-heading-font-weight: 500;
+
+}
