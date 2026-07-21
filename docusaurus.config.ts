@@ -11,11 +11,11 @@ const config: Config = {
     v4: true,
   },
 
-  url: 'https://GustoHouse.github.io',
-  baseUrl: '/Gravity-Connect/',
+  url: 'https://gravity-connect.github.io',
+  baseUrl: '/gravity-docs-docusaurus/',
 
-  organizationName: 'GustoHouse',
-  projectName: 'Gravity-Connect',
+  organizationName: 'gravity-connect',
+  projectName: 'gravity-docs-docusaurus',
 
   onBrokenLinks: 'throw',
 
