@@ -85,7 +85,7 @@ const config: Config = {
         },
         {
           to: '/api',
-          label: 'Docs',
+          label: 'Specification',
           position: 'right',
         },
         {
@@ -94,8 +94,8 @@ const config: Config = {
           position: 'right',
         },
         {
-          to: '/support',
-          label: 'Support',
+          to: '/get-involved',
+          label: 'Get Involved',
           position: 'right',
         },
         {
