@@ -1,7 +1,11 @@
 openapi: 3.0.0
 info:
   description: "{{CONDENSED_DESCRIPTION}}"
-  version: 2.0.5
+  x-logo:
+    url: "./assets/vp_logo.png"
+    backgroundColor: "#FFFFFF"
+    altText: "Virtual Peaker Logo"
+  version: 2.0.6
   title: Gravity Connect API (Virtual Peaker)
   license:
     name: BSD
