@@ -44,6 +44,11 @@
     color: var(--gc-color-black) !important;
 }
 
+.table-of-contents__link:hover,
+.table-of-contents__link:hover code{
+    color: var(--gc-color-onyx-light);
+}
+
 /*
   Infima only underlines links on hover by default, so at rest a link is
   distinguished from body text by color alone — fails WCAG 1.4.1. Underline

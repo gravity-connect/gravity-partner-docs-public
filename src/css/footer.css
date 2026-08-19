@@ -141,6 +141,10 @@
     color: inherit;
 }
 
+.footer-row--legal{
+    padding-bottom:0px;
+}
+
 @media (max-width: 768px){
     .footer-row--nav{
         flex-direction: column;

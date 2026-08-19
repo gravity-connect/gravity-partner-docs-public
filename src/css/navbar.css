@@ -5,6 +5,7 @@
   --ifm-navbar-link-hover-color: var(--ifm-color-primary);
   --ifm-navbar-shadow: none;
   --ifm-navbar-padding-vertical: 0;
+  --ifm-navbar-item-padding-horizontal: 1.5rem;
 }
 
 #__docusaurus > nav.navbar{
@@ -40,6 +41,31 @@
   #__docusaurus > nav{
     background:black;
   }
+}
+
+.navbar__logo{
+  height: 45px;
+  transition: height var(--ifm-transition-fast) ease;
+}
+
+.navbar__link{
+  position: relative;
+  padding-bottom: 4px;
+}
+
+.navbar__link::after{
+  content: '';
+  position: absolute;
+  left: var(--ifm-navbar-item-padding-horizontal);
+  bottom: -2px;
+  height: 2px;
+  width: 0;
+  background-color: var(--ifm-color-primary);
+  transition: width 0.25s ease;
+}
+
+.navbar__link:hover::after{
+  width: calc(100% - (var(--ifm-navbar-item-padding-horizontal) * 2));
 }
 
 .navbar__toggle{
