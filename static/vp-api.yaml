@@ -9,6 +9,7 @@ info:
   title: Gravity Connect API (Virtual Peaker)
   license:
     name: BSD 3 Clause
+    url: https://gravity-connect.com/docs/license
 
 servers:
   - url: 'https://partner.virtualpeaker.io/v1'
