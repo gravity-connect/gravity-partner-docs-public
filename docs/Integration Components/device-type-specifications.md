@@ -1,14 +1,16 @@
 ---
 title: Device Type Specifications
-sidebar_position: 5
+sidebar_position: 4
 ---
 
-Definitions for `SIGNAL_KEY`, `SIGNAL_VALUE`, `SETTING_KEY`, and `VP_COMMAND_OBJECT` all depend on the type of device (`DEVICE_TYPE_ENUM`) interfacing with the Gravity Connect API. This section will outline those values per device type.
+# Device Type Specifications
+
+The telemetry data and commands applicable to each device used with a Gravity Connect integration depend on the device type.
 
 NOTE: `VP_COMMAND_OBJECT` is only a portion of what is sent during an event. For the full payload, please see the [Send Command](#operation/sendCommand) endpoint.
 
 ## Battery
-### Battery Command Payloads (VP_COMMAND_OBJECT)
+### Battery Command Payloads
 #### Standby
 ```json
 {
@@ -66,7 +68,7 @@ NOTE: `VP_COMMAND_OBJECT` is only a portion of what is sent during an event. For
 
 ## HWH
 
-### HWH Command Payloads (VP_COMMAND_OBJECT)
+### HWH Command Payloads
 #### Shed
 ```json
 {
@@ -139,7 +141,7 @@ Percentage ranges from 0-100
 #### Temperature Units
 As described in the following specification, all temperatures are sent and received in units of Fahrenheit for consistency. However, these temperatures can be displayed in Celsius to users in appropriate locales.
 
-### TSTAT Command Payloads (VP_COMMAND_OBJECT)
+### TSTAT Command Payloads
 #### Adjust Set Point
 ```json
 {
@@ -167,7 +169,7 @@ As described in the following specification, all temperatures are sent and recei
 {{tstat_settings}}
 
 ## EVSE
-### EVSE Command Payloads (VP_COMMAND_OBJECT)
+### EVSE Command Payloads
 #### Standby
 This puts the EV Charger in an idle state.
 ```json
@@ -202,7 +204,7 @@ Limit the charging power to the set `power` limit, in units or Watts.
 {{evse_settings}}
 
 ## V2G
-### V2G Command Payloads (VP_COMMAND_OBJECT)
+### V2G Command Payloads
 #### Charge
 ```json
 {
@@ -251,9 +253,3 @@ Limit the charging power to the set `power` limit, in units or Watts.
 
 ### V2G Settings
 {{v2g_settings}}
-
-
-## Device Authentication
- Most of the device partner's endpoints will utilize the [device_partner_api_auth](#section/Authentication/device_partner_api_auth) authentications. The only exception is the [OAuth Device Discovery](#tag/OAuth-Device-Discovery-(Preferred)) endpoint which uses [device_partner_user_auth](#section/Authentication/device_partner_user_auth).
-
- For information on how to authenticate when publishing data to the VPP, please see the [Authentication section](./vp-api.html#section/Authentication) for those endpoints.

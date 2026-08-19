@@ -1,7 +1,9 @@
 ---
 title: Quick Start Guide
-sidebar_position: 3
+sidebar_position: 4
 ---
+
+# Quick Start Guide
 
 ## Endpoint Architecture
 This guide describes the Device Partner endpoints and API endpoints hosted by the VPP for receiving data from the Device Partner's devices. The endpoints support standard integration operations, including publishing device signals, command statuses, and device enrollment events. Used together, they allow a two-way flow of information that enables utilities to control and manage devices.
@@ -14,16 +16,14 @@ This data enables essential capabilities like:
 
 Having a standardized set of endpoints for data intake simplifies integration significantly compared to custom development. Device Partners simply publish data in the documented format to stream it to the VPP's platform.
 
-Learn more about the data flows in the [Integration Overview](#section/Getting-Started/Device-Partner-Integration-Overview).
-
 ## Glossary
 * **Device Partner**: The party working to integrate with the VPP. This may be an OEM or a company creating digital solutions for devices.
 * **Program**: An arrangement where a utility controls homeowners' devices in exchange for incentives such as rebates or gift cards. Multiple Device Partners typically participate in each program.
 * **PROGRAM_PUBLISH_KEY**: The identifier for a program, unique to each combination of program and Device Partner.
 * **PROGRAM_PUBLISH_SECRET**: The secret used as an input to HMAC for publishing program data to the VPP.
 * **DEVICE_PUBLISH_SECRET**: The secret used as an input to HMAC for publishing device data to the VPP.
-* **Signals and Settings**: The device telemetry and configuration data that is streamed to the VPP. See the [Device Type Specifications](#section/Device-Type-Specifications) for a specific list of the signals and settings required for each device type.
-* **VP_COMMAND_OBJECT**: A portion of the payload sent to the Device Partner when the VPP sends a command. For more information about the commands required for each device type, see the [Device Type Specifications](#section/Device-Type-Specifications). For details about the command request, see the [Send Command Endpoint](#operation/sendCommand).
+* **Signals and Settings**: The device telemetry and configuration data that is streamed to the VPP. See the [Device Type Specifications](/Integration%20Components/device-type-specifications) for a specific list of the signals and settings required for each device type.
+* **VP_COMMAND_OBJECT**: A portion of the payload sent to the Device Partner when the VPP sends a command. For more information about the commands required for each device type, see the [Device Type Specifications](/Integration%20Components/device-type-specifications). For details about the command request, see [Demand Response Commands](/Integration%20Components/dr-commands.md).
 * **OAuth 2.0**: An open authorization framework that enables applications to obtain limited access to user accounts on an HTTP service, such as for device onboarding. It works by delegating user authentication to the service that hosts the user account, and authorizing third-party applications to access the user account. Gravity Connect uses OAuth 2.0 for device enrollment and for all requests from the VPP to the Device Partner, such as commands.
 * **Webhook**: A method for apps to provide other applications with real-time information. When an event occurs, a HTPP POST callback is sent to the specified webhook URL endpoint. Gravity Connect uses webhooks for Device Partners to publish data updates instead of the VPP polling for data.
 
@@ -39,10 +39,10 @@ A new Device Partner typically integrates with a VPP's Gravity Connect API follo
 7. **Go Live:** After the integration has operated smoothly for a period of time, it becomes available to other customers and utility programs.
 
 ## Postman Collection
-To use Postman to interact with endpoints, download the [Postman Collection](./Gravity%20Connect%20API.postman_collection.json). After file opens hit Mac(command + s) or Windows(control + s) to save the file and download it to your computer.
+To use Postman to interact with endpoints, download the [Postman Collection](../static/Gravity%20Connect%20API.postman_collection.json).
 
 ### Postman Setup
-1. Download the file linked [here](./Gravity%20Connect%20API.postman_collection.json).
+1. Download the file linked above.
 2. Open Postman and select `Import` near the top right of the left side panel menu.
 3. Select `Upload Files` and select the Postman Collection you downloaded earlier.
 4. Upon successful import it will create a collection Called `Gravity Connect API` with two main folders inside called `VP Endpoints` and `Device Partner Endpoints`.
