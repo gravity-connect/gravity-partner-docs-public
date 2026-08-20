@@ -19,7 +19,7 @@ export default function ApiReference() {
           const {RedocStandalone} = require('redoc');
           return (
             <RedocStandalone
-              specUrl="/Gravity-Connect/vp-api.yaml"
+              specUrl="vpp-api.yaml"
               options={{
                 nativeScrollbars: true,
                 theme: redocTheme,

@@ -6,12 +6,14 @@ info:
     name: BSD 3 Clause
     url: 'https://gravity-connect.com/docs/license'
 servers:
-  - url: 'https://vpp.example/v1'
+  - url: 'https://example/v1'
 
 tags:
-- name: Publishing
+- name: Enrollment
+  description: The Device Partner uses these endpoints to enroll and unenroll devices from a program. Learn more about the available enrollment flows and how they combine these endpoints in the [User Guide](/docs/Integration%20Components/device-enrollment).
+- name: Data
   description: |
-    These endpoints allow the Device Partner to publish data to the VPP.
+    The Device Partner uses these endpoints to publish telemetry data and command states to the VPP. Learn more about [data publishing](/docs/Integration%20Components/data-publishing) in the user guide.
 
     **Notes:**
     - The maximum supported payload size for all requests listed below is 262,144 bytes.
@@ -23,7 +25,7 @@ paths:
       description: This endpoint publishes device data to the VPP. The signal and setting types, which vary by device type, are documented in the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications). Fields listed there as `required` are required overall for that device type, though not required in every data publish.
       operationId: publishSignalSetting
       tags:
-        - Publishing
+        - Data
       parameters:
         - $ref: "#/components/parameters/DeviceHMAC"
         - $ref: "#/components/parameters/programPublishKey"
@@ -68,10 +70,10 @@ paths:
   '/publish/{PROGRAM_PUBLISH_KEY}/command':
     post:
       summary: Publish command status - individual
-      description: This endpoint is used to report back the status of an individual (non-group) command.
+      description: This endpoint is used to report the status of an individual (non-group) command.
       operationId: publishCommand
       tags:
-        - Publishing
+        - Data
       parameters:
         - $ref: "#/components/parameters/HMAC"
         - $ref: "#/components/parameters/programPublishKey"
@@ -100,10 +102,10 @@ paths:
   '/publish/{PROGRAM_PUBLISH_KEY}/command/device':
     post:
       summary: Publish device command status - group
-      description: This endpoint is used to report back the status of a group command.
+      description: This endpoint is used to report the status of a group command.
       operationId: publishDeviceCommand
       tags:
-        - Publishing
+        - Data
       parameters:
         - $ref: "#/components/parameters/HMAC"
         - $ref: "#/components/parameters/programPublishKey"
@@ -137,10 +139,10 @@ paths:
   '/publish/{PROGRAM_PUBLISH_KEY}/device':
     post:
       summary: Publish device enrollment status
-      description: This endpoint is used with Pairing Code Device Discovery and Service Address Device Discovery. It is also used to inform the VPP of unenrollments initated by the Device Partner.
+      description: This endpoint is used as part of some enrollment flows. It is also used to inform the VPP of unenrollments initated by the Device Partner.
       operationId: publishDeviceEnrollment
       tags:
-        - Publishing
+        - Enrollment
       parameters:
         - $ref: "#/components/parameters/HMAC"
         - $ref: "#/components/parameters/programPublishKey"
@@ -184,10 +186,10 @@ paths:
   '/publish/{PROGRAM_PUBLISH_KEY}/enrollment':
     post:
       summary: Publish device partner driven enrollment
-      description: Used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.
+      description: This endpoint is used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.
       operationId: publishDevicePartnerDrivenEnrollment
       tags:
-        - Publishing
+        - Enrollment
       parameters:
         - $ref: "#/components/parameters/HMAC"
         - $ref: "#/components/parameters/programPublishKey"
