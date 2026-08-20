@@ -259,7 +259,7 @@ components:
     DeviceHMAC:
       in: header
       name: Authorization
-      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=DEVICE_PUBLISH_SECRET, data=BODY)"
+      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256`, key=DEVICE_PUBLISH_SECRET, data=BODY)"
       schema:
         type: string
         pattern: '^Publish [a-f\d]+$'
@@ -267,7 +267,7 @@ components:
     HMAC:
       in: header
       name: Authorization
-      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256``, key=PROGRAM_PUBLISH_SECRET, data=BODY)"
+      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256`, key=PROGRAM_PUBLISH_SECRET, data=BODY)"
       schema:
         type: string
         pattern: '^Publish [a-f\d]+$'
