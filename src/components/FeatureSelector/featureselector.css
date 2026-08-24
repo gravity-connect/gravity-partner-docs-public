@@ -83,8 +83,8 @@
         padding: 0;
         margin: 0;
         font-family: inherit;
-        font-size: 1.5rem;
-        font-weight: var(--ifm-heading-font-weight);
+        font-size: 2.25rem;
+        font-weight: 600;
         color: inherit;
         cursor: pointer;
     }
