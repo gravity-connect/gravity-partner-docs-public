@@ -5,7 +5,7 @@ sidebar_position: 7
 
 # Demand Response Commands
 
-[![Command Flow Diagram](../../static/diagrams/demand-reponse-command-flow.png)](../../static/diagrams/demand-reponse-command-flow.png)
+[![Command Flow Diagram](../../static/diagrams/dr-command-flow.png)](../../static/diagrams/dr-command-flow.png)
 
 ## Scheduling and Canceling
 

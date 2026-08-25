@@ -81,7 +81,7 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'guidesSidebar',
           position: 'right',
-          label: 'Guides',
+          label: 'Guide',
         },
         {
           to: '/api',
@@ -90,12 +90,7 @@ const config: Config = {
         },
         {
           to: '/blog',
-          label: 'Resources',
-          position: 'right',
-        },
-        {
-          to: '/get-involved',
-          label: 'Get Involved',
+          label: 'News',
           position: 'right',
         },
         {
@@ -103,6 +98,11 @@ const config: Config = {
           label: 'About',
           position: 'right',
         },
+        {
+          to: '/get-involved',
+          label: 'Get Involved',
+          position: 'right',
+        }
       ],
     },
     footer: {
@@ -116,25 +116,25 @@ const config: Config = {
       },
       links: [
         {
-          label: 'Guides',
+          label: 'Guide',
           to: '/docs/getting-started',
         },
         {
-          label: 'Docs',
+          label: 'Specification',
           to: '/api',
         },
         {
-          label: 'Resources',
+          label: 'News',
           to: '/blog',
-        },
-        {
-          label: 'Support',
-          to: '/support',
         },
         {
           label: 'About',
           to: '/about',
         },
+        {
+          label: 'Get Involved',
+          to: '/get-involved',
+        }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Virtual Peaker, Inc. All rights reserved.`,
     },

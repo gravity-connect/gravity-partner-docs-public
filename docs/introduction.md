@@ -11,4 +11,13 @@ This developer guide outlines the API endpoints and integration capabilities tha
 
 After building the endpoints described in this guide, Device Partners can add their products to the VPP's customers' programs. Utilities will use the VPP's platform and suite of device integrations to access real-time data and control smart devices as part of VPPs, demand response programs, and/or DER management programs.
 
+Each integration supports:
+
+* Device enrollment and unenrollment
+* Data streaming of device signals and settings
+* Device commands and data streaming of command responses
+* Group management (optional)
+
+[![Integration Overview Diagram](../static/diagrams/integration-overview.png)](../static/diagrams/integration-overview.png)
+
 This documentation is open-source, and we encourage all DERMS and VPP platforms to use this standard. Integrations built to the Gravity Connect API standard are not limited to use with one VPP platform.
