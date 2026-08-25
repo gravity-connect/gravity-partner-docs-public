@@ -52,32 +52,6 @@ paths:
               application/json:
                 schema:
                   $ref: '#/components/schemas/Details'
-  '/user':
-    get:
-      summary: Read current user's details
-      description: Used to discover details about the device owner.
-      operationId: readCurrentUser
-      tags:
-        - Enrollment
-      security:
-        - device_partner_user_auth: [user_read]
-      responses:
-        '200':
-          description: successful operation
-          content:
-            application/json:
-                schema:
-                    $ref: '#/components/schemas/UserDetails'
-        '400':
-          $ref: "#/components/responses/badRequest"
-        '401':
-          $ref: "#/components/responses/unauthorized"
-        default:
-          description: unexpected error
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/Details'
   '/device/{DEVICE_UID}/user':
     get:
       summary: Describe device's user
@@ -188,7 +162,7 @@ paths:
                     description: The unique identifier for the target device within the partner's platform
                   secret:
                     type: string
-                    description: DEVICE_PUBLISH_SECRET; Passed when a device is subscribed to data, used to create an HMAC when the Device Partner publishes device data to Virtual Peaker
+                    description: DEVICE_PUBLISH_SECRET; passed when a device is subscribed to data, and used to create an HMAC when the Device Partner publishes device data to the VPP
             examples:
               register:
                 summary: Registering/subscribing a device and sharing secret
@@ -834,7 +808,7 @@ components:
           type: string
         isSubscribed:
           type: boolean
-          description: If true, Virtual Peaker has enabled publishing of device data
+          description: If true, the VPP has enabled publishing of device data
     DeviceKindEnum:
       type: string
       enum:
@@ -843,7 +817,6 @@ components:
         - BATTERY
         - EVSE
         - V2G
-        - STORAGE-HVAC
     CommandState:
       type: object
       required:
