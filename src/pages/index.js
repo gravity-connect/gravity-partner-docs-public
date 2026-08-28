@@ -99,9 +99,7 @@ export default function Home() {
             <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
           </Card>
           <Card>
-            <h3>... and more!</h3>
-            <p>Partner with us to support new device types</p>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+            <p>... and more! Partner with us to support new device types</p>
           </Card>
         </Cards>
 

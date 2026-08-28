@@ -84,9 +84,19 @@ const config: Config = {
           label: 'Guide',
         },
         {
-          to: '/api',
+          type: 'dropdown',
           label: 'Specification',
           position: 'right',
+          items: [
+            {
+              to: '/device-partner-api',
+              label: 'Device Partner Specification',
+            },
+            {
+              to: '/vpp-api',
+              label: 'VPP Specification',
+            },
+          ],
         },
         {
           to: '/blog',
