@@ -4,7 +4,7 @@
     .container{
         .row{
             padding-block: var(--gc-padding-vertical);
-            align-items: flex-start;
+            align-items: center;
         }
     }
 
