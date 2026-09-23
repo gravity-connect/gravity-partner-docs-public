@@ -13,8 +13,23 @@ import Card from '@site/src/components/Cards/card';
 import FeatureSelector from '@site/src/components/FeatureSelector';
 import FeatureSelectorItem from '@site/src/components/FeatureSelector/item';
 
+const PARTNER_LOGOS = [
+  {src: '/img/logos/eguana tech logo-color_GRAY.svg', alt: 'Eguana Technologies'},
+  {src: '/img/logos/Emporia Logo - Color-GRAY.svg', alt: 'Emporia'},
+  {src: '/img/logos/Fortress-Power-Logo-GRAY.svg', alt: 'Fortress Power'},
+  {src: '/img/logos/FranklinWH-logo_Colors_GRAY.svg', alt: 'FranklinWH'},
+  {src: '/img/logos/Lunar-Energy_logo-GRAY.svg', alt: 'Lunar Energy'},
+  {src: '/img/logos/savantcom_vector-logo-GRAY.svg', alt: 'Savant'},
+  {src: '/img/logos/sinope_lgo-GRAY.svg', alt: 'Sinopé'},
+];
+
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
+  const baseUrl = useBaseUrl('/');
+  const partnerLogos = PARTNER_LOGOS.map((logo) => ({
+    ...logo,
+    src: encodeURI(baseUrl + logo.src.replace(/^\//, '')),
+  }));
 
   useEffect(() => {
     document.body.classList.add('home-page');
@@ -48,6 +63,7 @@ export default function Home() {
           button="Get Started"
           link="/docs/introduction"
           className='HomeBanner'
+          logos={partnerLogos}
         />
 
         <Band color='grey'>

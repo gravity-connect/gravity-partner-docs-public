@@ -22,5 +22,5 @@ Integrations are evaluated on the following workflows.
 * Device successfully responds to cancelling a group event, if applicable
 * Device signals for modes and command statuses align with test events before, during, and after the event window
 * Device signals change in the correct direction relative to test event commands
-* Device opts out of individual device event using [publish device command status endpoint](./vp-api.html#operation/publishDeviceCommand)
-* Device opts out of group event using [command opt-out](./vp-api.html#operation/commandOptOut)
+* Device opts out of individual device event using [publish device command status endpoint](/vpp-api#operation/publishDeviceCommand)
+* Device opts out of group event using [command opt-out](/vpp-api#operation/commandOptOut)

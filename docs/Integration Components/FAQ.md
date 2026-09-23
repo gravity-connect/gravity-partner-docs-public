@@ -21,7 +21,7 @@ The VPP will provide a unique `PROGRAM_PUBLISH_KEY` and `PROGRAM_PUBLISH_SECRET`
 ## How frequently should device data be published to the VPP?
 Telemetry data in the lists of \"signals\" and \"settings\" should be published between every 5 and every 15 minutes. This data should contain 5 minute intervals for continuous signals. Categorical signals and settings that change infrequently can be updated only on change.
 
-This does not apply to energy interval data (see [Energy Interval Data](/Integration%20Components/energy-interval-data)).
+This does not apply to energy interval data (see [Energy Interval Data](/docs/Integration%20Components/energy-interval-data)).
 
 ## My device publishes data that doesn't correspond to an existing signal or setting. What should I do with it?
 The signal and setting lists are constantly evolving. Please contact the Gravity Connect team with suggestions for updating the specification.

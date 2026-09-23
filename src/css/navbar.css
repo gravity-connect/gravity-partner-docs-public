@@ -53,7 +53,7 @@
   padding-bottom: 4px;
 }
 
-.navbar__link::after{
+.navbar__link::before{
   content: '';
   position: absolute;
   left: var(--ifm-navbar-item-padding-horizontal);
@@ -64,8 +64,23 @@
   transition: width 0.25s ease;
 }
 
-.navbar__link:hover::after{
+.navbar__link:hover::before{
   width: calc(100% - (var(--ifm-navbar-item-padding-horizontal) * 2));
+}
+
+/*
+  Dropdown items (e.g. "Specification") render .navbar__link as a child of
+  the padded .navbar__item.dropdown wrapper, rather than being that padded
+  element itself like a plain nav link is. So .navbar__link's own box has no
+  built-in horizontal padding here, and the offset/width math above (which
+  assumes that padding) needs different values for this case.
+*/
+.navbar__item.dropdown > .navbar__link::before{
+  left: 0;
+}
+
+.navbar__item.dropdown > .navbar__link:hover::before{
+  width: 100%;
 }
 
 .navbar__toggle{

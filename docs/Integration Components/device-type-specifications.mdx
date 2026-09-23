@@ -3,6 +3,8 @@ title: Device Type Specifications
 sidebar_position: 4
 ---
 
+import DeviceSpecList from '@site/src/components/DeviceSpecList';
+
 # Device Type Specifications
 
 The telemetry data and commands applicable to each device used with a Gravity Connect integration depend on the device type.
@@ -61,10 +63,10 @@ NOTE: `VP_COMMAND_OBJECT` is only a portion of what is sent during an event. For
 ```
 
 ### Battery Signals
-{{battery_signals}}
+<DeviceSpecList deviceType="battery" kind="signal" />
 
 ### Battery Settings
-{{battery_settings}}
+<DeviceSpecList deviceType="battery" kind="setting" />
 
 ## HWH
 
@@ -132,10 +134,10 @@ Percentage ranges from 0-100
 ```
 
 ### HWH Signals
-{{hwh_signals}}
+<DeviceSpecList deviceType="hwh" kind="signal" />
 
 ### HWH Settings
-{{hwh_settings}}
+<DeviceSpecList deviceType="hwh" kind="setting" />
 
 ## TSTAT
 #### Temperature Units
@@ -163,10 +165,10 @@ As described in the following specification, all temperatures are sent and recei
 
 
 ### TSTAT Signals
-{{tstat_signals}}
+<DeviceSpecList deviceType="tstat" kind="signal" />
 
 ### TSTAT Settings
-{{tstat_settings}}
+<DeviceSpecList deviceType="tstat" kind="setting" />
 
 ## EVSE
 ### EVSE Command Payloads
@@ -198,10 +200,10 @@ Limit the charging power to the set `power` limit, in units or Watts.
 ```
 
 ### EVSE Signals
-{{evse_signals}}
+<DeviceSpecList deviceType="evse" kind="signal" />
 
 ### EVSE Settings
-{{evse_settings}}
+<DeviceSpecList deviceType="evse" kind="setting" />
 
 ## V2G
 ### V2G Command Payloads
@@ -247,9 +249,8 @@ Limit the charging power to the set `power` limit, in units or Watts.
 }
 ```
 
-### V2G Signals/Settings
 ### V2G Signals
-{{v2g_signals}}
+<DeviceSpecList deviceType="v2g" kind="signal" />
 
 ### V2G Settings
-{{v2g_settings}}
+<DeviceSpecList deviceType="v2g" kind="setting" />

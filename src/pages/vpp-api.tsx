@@ -1,11 +1,11 @@
 import React, {useEffect} from 'react';
 import BrowserOnly from '@docusaurus/BrowserOnly';
 import Layout from '@theme/Layout';
-import redocTheme from './_redocTheme';
+import ApiReference from '@site/src/components/ApiReference';
 
 import './api.css';
 
-export default function ApiReference() {
+export default function VppApiPage() {
 
   useEffect(() => {
     document.body.classList.add('api-page');
@@ -15,18 +15,9 @@ export default function ApiReference() {
   return (
     <Layout>
       <BrowserOnly fallback={<div style={{padding: '2rem'}}>Loading API reference…</div>}>
-        {() => {
-          const {RedocStandalone} = require('redoc');
-          return (
-            <RedocStandalone
-              specUrl="vpp-api.yaml"
-              options={{
-                nativeScrollbars: true,
-                theme: redocTheme,
-              }}
-            />
-          );
-        }}
+        {() => (
+          <ApiReference specUrl="/vpp-api.yaml" descriptionUrl="/vpp-description.md" />
+        )}
       </BrowserOnly>
     </Layout>
   );
