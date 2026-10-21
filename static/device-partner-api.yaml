@@ -364,7 +364,7 @@ paths:
                     description: Length of event in seconds. The value should be greater than 0. If a device partner imposes a maximum event duration, frequently it is either 8 or 24 hours.
                   command:
                     type: object
-                    description: Varies by device kind, see documentation for VP_COMMAND_OBJECT
+                    description: Varies by device kind. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications).
       responses:
         '200':
           description: successful operation
