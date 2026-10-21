@@ -109,8 +109,8 @@ const config: Config = {
           position: 'right',
         },
         {
-          to: '/get-involved',
-          label: 'Get Involved',
+          to: '/contact',
+          label: 'Contact',
           position: 'right',
         }
       ],
@@ -142,8 +142,8 @@ const config: Config = {
           to: '/about',
         },
         {
-          label: 'Get Involved',
-          to: '/get-involved',
+          label: 'Contact',
+          to: '/Contact',
         }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Virtual Peaker, Inc. All rights reserved.`,
