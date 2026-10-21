@@ -70,6 +70,44 @@ NOTE: The commands shown here represent the `command` object inside the [Send Co
 ### Battery Settings
 <DeviceSpecList deviceType="battery" kind="setting" />
 
+## EVSE (EV Charger)
+### EVSE Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Standby
+This puts the EV Charger in an idle state.
+```json
+{
+  mode: 'STANDBY'
+}
+```
+
+#### Dispatch - Limit Power
+Limit the charging power to the set `power` limit, in units or Watts.
+```json
+{
+  mode: 'DISPATCH',
+  action: 'LIMIT_POWER',
+  power: 1000
+}
+```
+
+#### Dispatch - Percent Shed
+```json
+{
+  mode: 'DISPATCH',
+  action: 'PERCENT',
+  limitPercent: 100
+}
+```
+
+### EVSE Signals
+<DeviceSpecList deviceType="evse" kind="signal" />
+
+### EVSE Settings
+<DeviceSpecList deviceType="evse" kind="setting" />
+
 ## HWH (Hot Water Heater)
 
 ### HWH Command Payloads
@@ -177,45 +215,7 @@ NOTE: The commands shown here represent the `command` object inside the [Send Co
 ### TSTAT Settings
 <DeviceSpecList deviceType="tstat" kind="setting" />
 
-## EVSE (EV Charger)
-### EVSE Command Payloads
-
-NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
-
-#### Standby
-This puts the EV Charger in an idle state.
-```json
-{
-  mode: 'STANDBY'
-}
-```
-
-#### Dispatch - Limit Power
-Limit the charging power to the set `power` limit, in units or Watts.
-```json
-{
-  mode: 'DISPATCH',
-  action: 'LIMIT_POWER',
-  power: 1000
-}
-```
-
-#### Dispatch - Percent Shed
-```json
-{
-  mode: 'DISPATCH',
-  action: 'PERCENT',
-  limitPercent: 100
-}
-```
-
-### EVSE Signals
-<DeviceSpecList deviceType="evse" kind="signal" />
-
-### EVSE Settings
-<DeviceSpecList deviceType="evse" kind="setting" />
-
-## V2G (Vehicle-to-grid or Bi-directional EV charger)
+## V2G (Vehicle-to-grid)
 ### V2G Command Payloads
 
 NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
