@@ -1,6 +1,6 @@
 ---
 title: Changelog
-sidebar_position: 3
+sidebar_position: 100
 ---
 
 This list tracks noteworthy changes to the API documentation.

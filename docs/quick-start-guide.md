@@ -1,6 +1,6 @@
 ---
 title: Quick Start Guide
-sidebar_position: 4
+sidebar_position: 2
 ---
 
 # Quick Start Guide
