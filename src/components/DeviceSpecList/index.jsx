@@ -16,12 +16,13 @@ export default function DeviceSpecList({deviceType, kind}) {
     <>
       {entries.map(([name, def]) => (
         <div key={name}>
-          <h4>
+          <h4 style={{marginTop:'25px', marginBottom:'20px'}}>
             <code>{name}</code> ({def.type})
           </h4>
           <ul>
-            {def.docs?.description && <li>{def.docs.description}</li>}
-            {def.docs?.unit && <li>Unit: {def.docs.unit}</li>}
+          {def.docs?.unit && <li>Unit: {def.docs.unit}</li>}
+          {def.docs?.description && <li>{def.docs.description}</li>}
+          {def.docs?.frequency && <li>Frequency: {def.docs.frequency}</li>}
             {def.values && (
               <li>
                 Valid Values

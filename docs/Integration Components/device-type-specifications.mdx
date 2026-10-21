@@ -9,10 +9,12 @@ import DeviceSpecList from '@site/src/components/DeviceSpecList';
 
 The telemetry data and commands applicable to each device used with a Gravity Connect integration depend on the device type.
 
-NOTE: `VP_COMMAND_OBJECT` is only a portion of what is sent during an event. For the full payload, please see the [Send Command](#operation/sendCommand) endpoint.
-
 ## Battery
 ### Battery Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](
+  /device-partner-api#tag/Commands/operation/sendCommand') payload.
+
 #### Standby
 ```json
 {
@@ -68,9 +70,12 @@ NOTE: `VP_COMMAND_OBJECT` is only a portion of what is sent during an event. For
 ### Battery Settings
 <DeviceSpecList deviceType="battery" kind="setting" />
 
-## HWH
+## HWH (Hot Water Heater)
 
 ### HWH Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
+
 #### Shed
 ```json
 {
@@ -139,11 +144,13 @@ Percentage ranges from 0-100
 ### HWH Settings
 <DeviceSpecList deviceType="hwh" kind="setting" />
 
-## TSTAT
+## TSTAT (Thermostat)
 #### Temperature Units
 As described in the following specification, all temperatures are sent and received in units of Fahrenheit for consistency. However, these temperatures can be displayed in Celsius to users in appropriate locales.
 
 ### TSTAT Command Payloads
+NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
+
 #### Adjust Set Point
 ```json
 {
@@ -170,8 +177,11 @@ As described in the following specification, all temperatures are sent and recei
 ### TSTAT Settings
 <DeviceSpecList deviceType="tstat" kind="setting" />
 
-## EVSE
+## EVSE (EV Charger)
 ### EVSE Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
+
 #### Standby
 This puts the EV Charger in an idle state.
 ```json
@@ -205,8 +215,11 @@ Limit the charging power to the set `power` limit, in units or Watts.
 ### EVSE Settings
 <DeviceSpecList deviceType="evse" kind="setting" />
 
-## V2G
+## V2G (Vehicle-to-grid or Bi-directional EV charger)
 ### V2G Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](device-partner-api#tag/Commands/operation/sendCommand) payload.
+
 #### Charge
 ```json
 {
