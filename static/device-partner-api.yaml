@@ -81,6 +81,64 @@ paths:
             application/json:
               schema:
                 $ref: '#/components/schemas/Details'
+  '/device-list':
+    get:
+      summary: Read list of devices
+      description: Used to retrieve a list of all devices enrolled in or eligible for a program.
+      operationId: readDeviceList
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      tags:
+        - Enrollment
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: The page number to retrieve (pages start at 0)
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          description: The number of devices to return per page
+          schema:
+            type: integer
+            default: 1000
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - page
+                  - pageSize
+                  - count
+                  - devices
+                properties:
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                    description: The number of devices requested per page
+                  count:
+                    type: integer
+                    description: The number of devices returned in this page
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceDetails'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
   '/houses':
     post:
       summary: Publish houses for installation
@@ -162,7 +220,7 @@ paths:
                     description: The unique identifier for the target device within the partner's platform
                   secret:
                     type: string
-                    description: DEVICE_PUBLISH_SECRET; passed when a device is subscribed to data, and used to create an HMAC when the Device Partner publishes device data to the VPP
+                    description: DEVICE_PUBLISH_SECRET; passed when the VPP subscribes to data from this device, and used by the Device Partner to create the HMAC for publishing device data to the VPP
             examples:
               register:
                 summary: Registering/subscribing a device and sharing secret
@@ -808,7 +866,11 @@ components:
           type: string
         isSubscribed:
           type: boolean
-          description: If true, the VPP has enabled publishing of device data
+          description: If true, the VPP has subscribed to data publishing for this device
+        isInstalled:
+          type: boolean
+          default: true
+          description: If true, the device has been installed and is ready to participate. Typically, devices that are not installed have recently been purchased and will be installed in the near future.
     DeviceKindEnum:
       type: string
       enum:
