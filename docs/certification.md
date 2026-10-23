@@ -5,7 +5,7 @@ sidebar_position: 3
 
 # Gravity Connect Certification
 
-Gravity Connect is an open standard API developed through a [partnership](link to About page) between Virtual Peaker and DER OEMs.
+Gravity Connect is an open standard API developed through a [partnership](/about) between Virtual Peaker and DER OEMs.
 
 The optional certification process verifies the quality of an integration’s functionality and validates that the partner meets security standards. Device partners (OEMs), DERMS vendors, and VPPs are all eligible for certification.
 
@@ -32,4 +32,4 @@ logo | logo | logo
     Confirm that data is encrypted in transit, secure authentication is required for cloud access, and that change management processes are in place for databases that affect the integration.
 
 
-[Contact us] today to get started with certification.
+[Contact us](/contact) today to get started with certification.

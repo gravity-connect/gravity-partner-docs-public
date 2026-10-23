@@ -1,6 +1,6 @@
 ---
 title: Group Management
-sidebar_position: 100
+sidebar_position: 20
 ---
 
 Gravity Connect supports two options for targeting commands: individual devices and groups.

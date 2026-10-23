@@ -131,7 +131,7 @@ export default function Home() {
 
           <ul>
             <li>Available under the BSD license, the open-source specification can be used freely to support any energy initiative without vendor lock-in. </li>
-            <li>Certified partners meet rigorous standards for both functionality and security. The <a href="url">optional certification process</a> verifies quality and promotes the integration on this site.</li>
+            <li>Certified partners meet rigorous standards for both functionality and security. The <a href={useBaseUrl('/docs/certification')}>optional certification process</a> verifies quality and promotes the integration on this site.</li>
             <li>The specification is maintained by Virtual Peaker with contributions from partners across the industry, including many OEMs.</li>
           </ul>
 
@@ -152,13 +152,13 @@ export default function Home() {
         <Band background={useBaseUrl('/img/join.png')}>
 
           <h2>Join our efficient, sustainable energy ecosystem</h2>
-          <p>Access the guides or dive into the documentation.</p>
+          <p>Access the guide or dive into the documentation.</p>
 
-          <Link className='button button--outline button--lg margin-right--md' to='/docs/getting-started'>
-            Go to Guides
+          <Link className='button button--outline button--lg margin-right--md' to='/docs/introduction'>
+            User Guide
           </Link>
           <Link className='button button--outline button--lg' to='/api'>
-            Read the Docs
+            API Docs
           </Link>
 
         </Band>

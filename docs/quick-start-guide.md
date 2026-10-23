@@ -6,7 +6,7 @@ sidebar_position: 2
 # Quick Start Guide
 
 ## Endpoint Architecture
-This guide describes the Device Partner endpoints and API endpoints hosted by the VPP for receiving data from the Device Partner's devices. The endpoints support standard integration operations, including publishing device signals, command statuses, and device enrollment events. Used together, they allow a two-way flow of information that enables utilities to control and manage devices.
+Gravity Connect integrations include the Device Partner's endpoints and API endpoints hosted by the VPP for receiving data from the Device Partner's devices. The endpoints support standard integration operations, including publishing device signals, command statuses, and device enrollment events. Used together, they allow a two-way flow of information that enables utilities to control and manage devices.
 
 This data enables essential capabilities like:
 * Real-time device monitoring and analytics
@@ -23,7 +23,7 @@ Having a standardized set of endpoints for data intake simplifies integration si
 * **PROGRAM_PUBLISH_SECRET**: The secret used as an input to HMAC for publishing program data to the VPP.
 * **DEVICE_PUBLISH_SECRET**: The secret used as an input to HMAC for publishing device data to the VPP.
 * **Signals and Settings**: The device telemetry and configuration data that is streamed to the VPP. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications) for a specific list of the signals and settings required for each device type.
-* **VP_COMMAND_OBJECT**: A portion of the payload sent to the Device Partner when the VPP sends a command. For more information about the commands required for each device type, see the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications). For details about the command request, see [Demand Response Commands](/Integration%20Components/dr-commands.md).
+* **VP_COMMAND_OBJECT**: A portion of the payload sent to the Device Partner when the VPP sends a command. For more information about the commands required for each device type, see the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications). For details about the command request, see [Demand Response Commands](/docs/Integration%20Components/dr-commands).
 * **OAuth 2.0**: An open authorization framework that enables applications to obtain limited access to user accounts on an HTTP service, such as for device onboarding. It works by delegating user authentication to the service that hosts the user account, and authorizing third-party applications to access the user account. Gravity Connect uses OAuth 2.0 for device enrollment and for all requests from the VPP to the Device Partner, such as commands.
 * **Webhook**: A method for apps to provide other applications with real-time information. When an event occurs, a HTPP POST callback is sent to the specified webhook URL endpoint. Gravity Connect uses webhooks for Device Partners to publish data updates instead of the VPP polling for data.
 
@@ -81,5 +81,5 @@ We haven’t used the Postman collection for these endpoints yet, but we expect 
 Attached to the VPP endpoints is a script that will automatically create an HMAC and set it as a variable that is then used to make the request. These scripts expect that you’ve properly set the PROGRAM_PUBLISH_KEY, PROGRAM_PUBLISH_SECRET, DEVICE_PUBLISH_SECRET.
 
 To do this:
-1. Click on the root folder for the Gravity Connect API. Then select the tab `Variables`
-2. Find the variable and update the `CURRENT_VALUE`
+1. Click on the root folder for the Gravity Connect API, then select the tab `Variables`.
+2. Find the variable and update the `CURRENT_VALUE`.
