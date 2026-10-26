@@ -43,7 +43,7 @@ paths:
                 properties:
                   uid:
                     type: string
-                    description: The partner's unique device identifier
+                    description: The unique identifier for the device within the Device Partner's system
                   kind:
                     $ref: "#/components/schemas/DeviceKindEnum"
                   signal:
@@ -185,7 +185,7 @@ paths:
                 $ref: '#/components/schemas/Details'
   '/publish/{PROGRAM_PUBLISH_KEY}/enrollment':
     post:
-      summary: Publish device partner driven enrollment
+      summary: Publish Device Partner Driven Enrollment
       description: This endpoint is used for publishing device and site information for in-app enrollment, pre-enrollment from OEM-owned marketplaces, and bulk device enrollment.
       operationId: publishDevicePartnerDrivenEnrollment
       tags:
@@ -207,7 +207,7 @@ paths:
                   time:
                     type: string
                     format: date-time
-                    description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+                    description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
                   devices:
                     type: array
                     items:
@@ -242,7 +242,7 @@ components:
               properties:
                 deviceUids:
                   type: array
-                  description: Array of device uids for the Device Partner to assign to or remove from the group
+                  description: Array of device UIDs for the Device Partner to assign to or remove from the group
                   items:
                     type: string
                 action:
@@ -255,13 +255,13 @@ components:
       name: PROGRAM_PUBLISH_KEY
       in: path
       required: true
-      description: The unique identifier for the program, provided when the program is set up
+      description: The unique identifier for the program, provided by the VPP
       schema:
         type: string
     DeviceHMAC:
       in: header
       name: Authorization
-      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256`, key=DEVICE_PUBLISH_SECRET, data=BODY)"
+      description: "`Publish`, followed by the value of: `HMAC(algorithm=sha256, key=DEVICE_PUBLISH_SECRET, data=BODY)`"
       schema:
         type: string
         pattern: '^Publish [a-f\d]+$'
@@ -269,7 +269,7 @@ components:
     HMAC:
       in: header
       name: Authorization
-      description: "`Publish`, followed by the value of: HMAC(algorithm=`sha256`, key=PROGRAM_PUBLISH_SECRET, data=BODY)"
+      description: "`Publish`, followed by the value of: `HMAC(algorithm=sha256, key=DEVICE_PUBLISH_SECRET, data=BODY)`"
       schema:
         type: string
         pattern: '^Publish [a-f\d]+$'
@@ -293,7 +293,7 @@ components:
       properties:
         uid:
           type: string
-          description: DEVICE_UID, unique for the Device Partner
+          description: DEVICE_UID, unique within the Device Partner's system
         kind:
           $ref: '#/components/schemas/DeviceKindEnum'
         name:
@@ -325,7 +325,7 @@ components:
         time:
           type: string
           format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
         refId:
           type: string
           description: Command Reference ID
@@ -345,7 +345,7 @@ components:
         time:
           type: string
           format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
     Details:
       type: object
       required:
@@ -380,7 +380,7 @@ components:
       properties:
         userId:
           type: string
-          description: Unique identifier for the user within the device partner's platform
+          description: Unique identifier for the user within the Device Partner's system
         email:
           type: string
         accountNumber:

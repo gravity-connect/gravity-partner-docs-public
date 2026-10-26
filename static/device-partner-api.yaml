@@ -163,7 +163,7 @@ paths:
                 properties:
                   devices:
                     type: array
-                    description: Included if the device partner needs more details on which device (and how many) need installed. If not included, it's assumed the device partner can infer this information based on the program.
+                    description: Included if the Device Partner needs more details on which device(s) need to be installed. If not included, the Device Partner can infer this information based on the program.
                     items:
                       type: object
                       properties:
@@ -174,7 +174,7 @@ paths:
                           description: model name/number
                   pairingCode:
                     type: string
-                    description: "The current format is:\n* 2 alphanumeric characters to denote the pairing code prefix representing the program\n* 5 random numeric characters that VP uses to link the user to an existing device\n* 1 check digit. This check digit will be generated following the Luhn algorithm to ensure the 5 digit number is valid. This validation can be performed on the device partner side to provide immediate feedback, but will also be done within our API."
+                    description: "The current format is:\n* 2 alphanumeric characters to denote the pairing code prefix representing the program\n* 5 random numeric characters that VP uses to link the user to an existing device\n* 1 check digit. This check digit will be generated following the Luhn algorithm to ensure the 5 digit number is valid. This validation can be performed on the Device Partner side to provide immediate feedback, and will also be done by the VPP."
                     example: 'A1012344'
                   serviceAddress:
                     $ref: "#/components/schemas/ServiceAddress"
@@ -217,7 +217,7 @@ paths:
                       - unregister
                   uid:
                     type: string
-                    description: The unique identifier for the target device within the partner's platform
+                    description: The unique identifier for the target device within the Device Partner's system
                   secret:
                     type: string
                     description: DEVICE_PUBLISH_SECRET; passed when the VPP subscribes to data from this device, and used by the Device Partner to create the HMAC for publishing device data to the VPP
@@ -356,13 +356,20 @@ paths:
           schema:
             type: string
             format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A startTime in the past should still be considered valid if startTime + duration is still in the future
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A `start` in the past should still be considered valid if startTime + duration is still in the future.
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
         - name: duration
           in: query
           required: true
           schema:
             type: integer
-          description: Length of event in seconds. The value should be greater than 0. If a device partner imposes a maximum event duration, frequently it is either 8 or 24 hours.
+          description: Length of event in seconds. The value should be greater than 0.
       responses:
         '200':
           description: successful operation
@@ -416,10 +423,10 @@ paths:
                   startTime:
                     type: string
                     format: date-time
-                    description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A startTime in the past should still be considered valid if startTime + duration is still in the future
+                    description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A `start` in the past should still be considered valid if startTime + duration is still in the future.
                   duration:
                     type: integer
-                    description: Length of event in seconds. The value should be greater than 0. If a device partner imposes a maximum event duration, frequently it is either 8 or 24 hours.
+                    description: Length of event in seconds. The value should be greater than 0. If a Device Partner imposes a maximum event duration, the event should run until that maximum is reached; that is, `startTime` + maximum duration.
                   command:
                     type: object
                     description: Varies by device kind. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications).
@@ -435,7 +442,7 @@ paths:
                   properties:
                     refId:
                       type: string
-                      description: A unique ID for that command within the partners system to be used when reading/reporting command state or cancelling
+                      description: A unique ID for that command within the Device Partner's system, to be used when reading/reporting command state or cancelling
         '400':
           $ref: "#/components/responses/badRequest"
         '401':
@@ -538,7 +545,7 @@ paths:
                 properties:
                   deviceUids:
                     type: array
-                    description: Array of device uids for the Device Partner to opt out of the command
+                    description: Array of device UIDs requesting event cancellation
                     items:
                       type: string
       responses:
@@ -572,7 +579,7 @@ paths:
                 properties:
                   deviceUids:
                     type: array
-                    description: Array of device uids for the Device Partner to assign to the newly created group. Can be an empty array
+                    description: Array of device UIDs for the Device Partner to assign to the newly created group. Can be an empty array
                     items:
                       type: string
                   name:
@@ -590,10 +597,10 @@ paths:
                   properties:
                     uid:
                       type: string
-                      description: A unique ID for that group within the partner's system to be used when modifying or sending commands to the group
+                      description: A unique ID for that group within the Device Partner's system, to be used when modifying or sending commands to the group
                     invalidDevices:
                       type: array
-                      description: Array of device uids that couldn't be located or were otherwise not added to the group
+                      description: Array of device UIDs that couldn't be located or were otherwise not added to the group
                       items:
                         type: string
         '400':
@@ -670,7 +677,7 @@ paths:
                   - properties:
                       invalidDevices:
                         type: array
-                        description: Array of device uids that couldn't be located or were otherwise not added to the group
+                        description: Array of device UIDs that couldn't be located or were otherwise not added to the group
                         items:
                           type: string
         '400':
@@ -733,7 +740,7 @@ paths:
                 properties:
                   deviceUids:
                     type: array
-                    description: Array of device uids for the Device Partner to assign to or remove from the group
+                    description: Array of device UIDs for the Device Partner to assign to or remove from the group
                     items:
                       type: string
                   action:
@@ -752,7 +759,7 @@ paths:
                   - properties:
                       invalidDevices:
                         type: array
-                        description: Array of device uids that couldn't be located or were otherwise not added to the group
+                        description: Array of device UIDs that couldn't be located or were otherwise not added to the group
                         items:
                           type: string
         '400':
@@ -772,7 +779,7 @@ components:
       name: DEVICE_UID
       in: path
       required: true
-      description: The unique identifier for the target device within the partner's platform
+      description: The unique identifier for the target device within the Device Partner's system
       schema:
         type: string
     signalSetting:
@@ -789,7 +796,7 @@ components:
       name: DATA_KEY
       in: path
       required: true
-      description: 'The signal/setting type being read, varies based on device type, see documentation'
+      description: 'The signal/setting type being read; varies by device type. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications).'
       schema:
         type: string
     groupID:
@@ -813,6 +820,7 @@ components:
           type: string
         streetAddress2:
           type: string
+          description: Typically used to indicate apartment or suite number; often not used
         city:
           type: string
         state:
@@ -822,7 +830,7 @@ components:
           type: string
         country:
           type: string
-          description: A 2 letter indication of country. Following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+          description: A 2 letter indication of country, following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
     UserDetails:
       type: object
       required:
@@ -830,7 +838,7 @@ components:
       properties:
         userId:
           type: string
-          description: Unique identifier for the user within the device partner's platform
+          description: Unique identifier for the user within the Device Partner's system
         accountNumber:
           type: string
           description: Utility customer identifier (if available)
@@ -854,7 +862,7 @@ components:
       properties:
         uid:
           type: string
-          description: DEVICE_UID, unique within the partner
+          description: "`DEVICE_UID`, unique within the Device Partner's system"
         kind:
           $ref: '#/components/schemas/DeviceKindEnum'
         name:
@@ -901,7 +909,7 @@ components:
         time:
           type: string
           format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
         refId:
           type: string
           description: Command Reference ID
@@ -921,7 +929,7 @@ components:
         time:
           type: string
           format: date-time
-          description: For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
     GroupDetails:
       type: object
       required:
@@ -930,10 +938,10 @@ components:
       properties:
         uid:
           type: string
-          description: A unique ID for that group within the partner's system
+          description: A unique ID for that group within the Device Partner's system
         deviceUids:
           type: array
-          description: The uids of the devices within that group
+          description: The UIDs of the devices within that group
           items:
             type: string
         name:
@@ -956,11 +964,11 @@ components:
       properties:
         value:
           type: integer
-          description: units of watt-hours (Wh)
+          description: The energy consumed between `time` and `time + duration`, in units of watt-hours (Wh)
         time:
           type: string
           format: date-time
-          description: \`time\` should represent the start of the interval, ie the `value` should represent the energy consumed between `time` and `time + duration`. Intervals should be "clock-aligned" (meaning on even time-boundaries, eg 00:00:00, 00:15:00, 00:30:00, etc) For more see, [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6). As an example, '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+          description: \`time\` represents the start of the interval. Intervals should be "clock-aligned" (meaning on even time-boundaries, e.g., 00:00:00, 00:15:00, 00:30:00, etc). \`time\` is a datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
         duration:
           type: integer
           description: Length of interval in seconds. The value should be greater than 0.
@@ -984,7 +992,7 @@ components:
           schema:
               $ref: "#/components/schemas/Details"
     notFound:
-      description: "The data could not be found. Potentially the device hasn't reported this datapoint yet or the device is offline and the device partner does not store the most recent value"
+      description: "The data could not be found. Potentially the device hasn't reported this datapoint yet or the device is offline and the Device Partner does not store the most recent value"
       content:
         application/json:
           schema:
@@ -997,11 +1005,11 @@ components:
         clientCredentials:
           tokenUrl: https://example.com/oauth/token
           scopes:
-            basic_partner_read_write: conducts all actions on the partners behalf
+            basic_partner_read_write: conducts all actions on the Device Partner's behalf
 
     device_partner_user_auth:
       type: oauth2
-      description: If using the OAuth onboarding method, this authentication method is used for the respective endpoints. Please the the FAQ for more details.
+      description: Used to discover devices with the OAuth enrollment flow.
       flows:
         authorizationCode:
           authorizationUrl: https://example.com/oauth/authorize
