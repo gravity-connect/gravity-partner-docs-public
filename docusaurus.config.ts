@@ -13,12 +13,12 @@ const config: Config = {
 
   url: 'https://gravity-connect.github.io',
   baseUrl: '/gravity-partner-docs-public/',
+  trailingSlash: false,
 
   organizationName: 'gravity-connect',
   projectName: 'gravity-partner-docs-public',
-  deploymentBranch: '2026-08-import-content',
 
-  onBrokenLinks: 'ignore',
+  onBrokenLinks: 'warn',
 
   i18n: {
     defaultLocale: 'en',
