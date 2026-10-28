@@ -18,7 +18,7 @@ const config: Config = {
   organizationName: 'gravity-connect',
   projectName: 'gravity-partner-docs-public',
 
-  onBrokenLinks: 'warn',
+  onBrokenLinks: 'throw',
 
   i18n: {
     defaultLocale: 'en',
@@ -128,11 +128,11 @@ const config: Config = {
       links: [
         {
           label: 'Guide',
-          to: '/docs/getting-started',
+          to: '/docs/introduction',
         },
         {
           label: 'Specification',
-          to: '/api',
+          to: 'device-partner-api',
         },
         {
           label: 'News',
@@ -144,7 +144,7 @@ const config: Config = {
         },
         {
           label: 'Contact',
-          to: '/Contact',
+          to: '/contact',
         }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Virtual Peaker, Inc. All rights reserved.`,
