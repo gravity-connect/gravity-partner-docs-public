@@ -3,6 +3,10 @@ title: Gravity Connect Certification
 sidebar_position: 3
 ---
 
+import Grid from '@site/src/components/Grid';
+import Block from '@site/src/components/Grid/block';
+import useBaseUrl from '@docusaurus/useBaseUrl';
+
 # Gravity Connect Certification
 
 Gravity Connect is an open standard API developed through a [partnership](/about) between Virtual Peaker and DER OEMs.
@@ -15,13 +19,19 @@ Certification requires a one-time fee of $15,000, covering the testing and QA pr
 
 # Certified Partners
 
-logo | logo | logo
+* Eguana Technologies
+* Emporia
+* Fortress Power
+* FranklinWH
+* Lunar Energy
+* Savant
+* Sinopé
 
 # The Certification Process
 
 **1. Build an integration**
 
-    Following the [specification], build an integration that supports at least one enrollment flow plus telemetry data and commands for the applicable device type(s).
+    Following the [specification](/device-partner-api), build an integration that supports at least one enrollment flow plus telemetry data and commands for the applicable device type(s).
 
 **2. Validate key workflows**
 
