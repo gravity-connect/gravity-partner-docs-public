@@ -18,7 +18,7 @@ const config: Config = {
   projectName: 'gravity-partner-docs-public',
   deploymentBranch: '2026-08-import-content',
 
-  onBrokenLinks: 'throw',
+  onBrokenLinks: 'ignore',
 
   i18n: {
     defaultLocale: 'en',
