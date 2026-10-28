@@ -132,7 +132,7 @@ const config: Config = {
         },
         {
           label: 'Specification',
-          to: 'device-partner-api',
+          to: '/device-partner-api',
         },
         {
           label: 'News',
