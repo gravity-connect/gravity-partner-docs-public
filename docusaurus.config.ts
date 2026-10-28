@@ -12,10 +12,10 @@ const config: Config = {
   },
 
   url: 'https://gravity-connect.github.io',
-  baseUrl: '/gravity-docs-docusaurus/',
+  baseUrl: '/gravity-partner-docs-public/',
 
   organizationName: 'gravity-connect',
-  projectName: 'gravity-docs-docusaurus',
+  projectName: 'gravity-partner-docs-public',
 
   onBrokenLinks: 'throw',
 
