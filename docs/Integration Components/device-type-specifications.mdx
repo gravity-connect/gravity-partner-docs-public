@@ -1,0 +1,269 @@
+---
+title: Device Type Specifications
+sidebar_position: 4
+---
+
+import DeviceSpecList from '@site/src/components/DeviceSpecList';
+
+# Device Type Specifications
+
+The telemetry data and commands applicable to each device used with a Gravity Connect integration depend on the device type.
+
+## Battery
+### Battery Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](
+  /device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Standby
+```json
+{
+    mode: 'STANDBY'
+}
+```
+
+#### Charge
+```json
+{
+  mode: 'CHARGE',
+  action: 'POWER',
+  power: 4000
+}
+```
+
+```json
+{
+  mode: 'CHARGE',
+  action: 'FASTEST'
+}
+```
+
+#### Discharge
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'POWER',
+  power: 4000
+}
+```
+
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'SITE_DEMAND',
+  targetSiteDemand: 400
+}
+```
+
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'SITE_DEMAND',
+  targetSiteDemand: 400,
+  maxPower: 10000
+}
+```
+
+### Battery Signals
+<DeviceSpecList deviceType="battery" kind="signal" />
+
+### Battery Settings
+<DeviceSpecList deviceType="battery" kind="setting" />
+
+## EVSE (EV Charger)
+### EVSE Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](/device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Standby
+This puts the EV Charger in an idle state.
+```json
+{
+  mode: 'STANDBY'
+}
+```
+
+#### Dispatch - Limit Power
+Limit the charging power to the set `power` limit, in units or Watts.
+```json
+{
+  mode: 'DISPATCH',
+  action: 'LIMIT_POWER',
+  power: 1000
+}
+```
+
+#### Dispatch - Percent Shed
+```json
+{
+  mode: 'DISPATCH',
+  action: 'PERCENT',
+  limitPercent: 100
+}
+```
+
+### EVSE Signals
+<DeviceSpecList deviceType="evse" kind="signal" />
+
+### EVSE Settings
+<DeviceSpecList deviceType="evse" kind="setting" />
+
+## HWH (Hot Water Heater)
+
+### HWH Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](/device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Shed
+```json
+{
+  mode: 'SHED'
+}
+```
+
+#### Load Up
+```json
+{
+  mode: 'LOAD_UP'
+}
+```
+#### Critical
+```json
+{
+  mode: 'CRITICAL'
+}
+```
+
+#### Emergency
+```json
+{
+  mode: 'EMERGENCY'
+}
+```
+
+#### Run Normal
+```json
+{
+  mode: 'RUN_NORMAL'
+}
+```
+
+#### Advanced Load Up (Optional)
+Where `energy` is an integer for Wh and `suggestedEfficiencyLevel` is an integer between 1 (representing low efficiency/fast heat up) and 9 (for high efficiency/slow heat up), or 10 for vacation mode.
+```json
+{
+  mode: 'ADVANCED_LOAD_UP',
+  energy: 1000
+  suggestedEfficiencyLevel: 1
+}
+```
+
+#### Efficiency (Optional)
+Where `suggestedEfficiencyLevel` is an integer between 1 (representing low efficiency/fast heat up) and 9 (for high efficiency/slow heat up), or 10 for vacation mode.
+```json
+{
+  mode: 'EFFICIENCY',
+  suggestedEfficiencyLevel: 1
+}
+```
+
+#### Duty Cycle (Optional)
+Percentage ranges from 0-100
+```json
+{
+  mode: 'DUTY_CYCLE',
+  percentage: 60
+}
+```
+
+### HWH Signals
+<DeviceSpecList deviceType="hwh" kind="signal" />
+
+### HWH Settings
+<DeviceSpecList deviceType="hwh" kind="setting" />
+
+## TSTAT (Thermostat)
+#### Temperature Units
+As described in the following specification, all temperatures are sent and received in units of Fahrenheit for consistency. However, these temperatures can be displayed in Celsius to users in appropriate locales.
+
+### TSTAT Command Payloads
+NOTE: The commands shown here represent the `command` object inside the [Send Command](/device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Adjust Set Point
+```json
+{
+  mode: 'HEAT',
+  temperature: -2.0
+}
+```
+
+* This command accepts relative values only.
+* The setpoint command is always processed as relative to the homeowner’s setpoint. For example, if the homeowner’s setpoint is currently 75, and the VPP receives a command for -3 followed by a command for -2, the second command sets the setpoint to 73, not to 70.
+* Mode
+    * Valid values
+        * HEAT
+        * COOL
+    * Note that while other values can be sent as Signals, only these values will be sent in commands.
+* Temperature
+    * Unit: degrees Fahrenheit
+    * Sign: For all modes, positive is an increase in temperature and negative is a decrease in temperature
+
+
+### TSTAT Signals
+<DeviceSpecList deviceType="tstat" kind="signal" />
+
+### TSTAT Settings
+<DeviceSpecList deviceType="tstat" kind="setting" />
+
+## V2G (Vehicle-to-grid)
+### V2G Command Payloads
+
+NOTE: The commands shown here represent the `command` object inside the [Send Command](/device-partner-api#tag/Commands/operation/sendCommand) payload.
+
+#### Charge
+```json
+{
+  mode: 'CHARGE',
+  action: 'POWER',
+  power: 4000
+}
+```
+
+```json
+{
+  mode: 'CHARGE',
+  action: 'FASTEST'
+}
+```
+
+#### Discharge
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'POWER',
+  power: 4000
+}
+```
+
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'SITE_DEMAND',
+  targetSiteDemand: 400
+}
+```
+
+```json
+{
+  mode: 'DISCHARGE',
+  action: 'SITE_DEMAND',
+  targetSiteDemand: 400,
+  maxPower: 10000
+}
+```
+
+### V2G Signals
+<DeviceSpecList deviceType="v2g" kind="signal" />
+
+### V2G Settings
+<DeviceSpecList deviceType="v2g" kind="setting" />

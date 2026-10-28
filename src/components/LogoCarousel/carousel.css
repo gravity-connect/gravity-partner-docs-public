@@ -1,0 +1,42 @@
+.logo-carousel {
+    overflow: hidden;
+    width: 100%;
+    -webkit-mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+    mask-image: linear-gradient(90deg, transparent 0, #000 8%, #000 92%, transparent 100%);
+}
+
+.logo-carousel__track {
+    display: flex;
+    align-items: center;
+    width: max-content;
+    animation: logo-carousel-scroll 32s linear infinite;
+}
+
+.logo-carousel__logo {
+    height: 28px;
+    width: auto;
+    margin: 0 48px;
+    flex-shrink: 0;
+    opacity: 0.6;
+    filter: brightness(0) invert(1);
+    transition: opacity 0.2s ease;
+}
+
+.logo-carousel__logo:hover {
+    opacity: 1;
+}
+
+@keyframes logo-carousel-scroll {
+    from {
+        transform: translateX(0);
+    }
+    to {
+        transform: translateX(-50%);
+    }
+}
+
+@media (prefers-reduced-motion: reduce) {
+    .logo-carousel__track {
+        animation: none;
+    }
+}

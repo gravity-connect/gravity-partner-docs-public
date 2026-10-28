@@ -13,8 +13,23 @@ import Card from '@site/src/components/Cards/card';
 import FeatureSelector from '@site/src/components/FeatureSelector';
 import FeatureSelectorItem from '@site/src/components/FeatureSelector/item';
 
+const PARTNER_LOGOS = [
+  {src: '/img/logos/eguana tech logo-color_GRAY.svg', alt: 'Eguana Technologies'},
+  {src: '/img/logos/Emporia Logo - Color-GRAY.svg', alt: 'Emporia'},
+  {src: '/img/logos/Fortress-Power-Logo-GRAY.svg', alt: 'Fortress Power'},
+  {src: '/img/logos/FranklinWH-logo_Colors_GRAY.svg', alt: 'FranklinWH'},
+  {src: '/img/logos/Lunar-Energy_logo-GRAY.svg', alt: 'Lunar Energy'},
+  {src: '/img/logos/savantcom_vector-logo-GRAY.svg', alt: 'Savant'},
+  {src: '/img/logos/sinope_lgo-GRAY.svg', alt: 'Sinopé'},
+];
+
 export default function Home() {
   const {siteConfig} = useDocusaurusContext();
+  const baseUrl = useBaseUrl('/');
+  const partnerLogos = PARTNER_LOGOS.map((logo) => ({
+    ...logo,
+    src: encodeURI(baseUrl + logo.src.replace(/^\//, '')),
+  }));
 
   useEffect(() => {
     document.body.classList.add('home-page');
@@ -43,18 +58,19 @@ export default function Home() {
       <main>
 
         <PageBanner
-          title="The Open Standard for VPP & OEM Integrations"
-          desc="Connect a DER fleet to dozens of utility programs with one integration, powering reliable demand response with near-real-time control and visibility."
+          title="The Open Standard for OEM Integrations with Virtual Power Plants"
+          desc="Connect a fleet of Distributed Energy Resources to dozens of utility programs with one integration, powering reliable Virtual Power Plants with near-real-time control and visibility."
           button="Get Started"
-          link="/docs/getting-started"
+          link="/docs/introduction"
           className='HomeBanner'
+          logos={partnerLogos}
         />
 
         <Band color='grey'>
 
           <h5>VPPs and Demand Response Programs</h5>
-          <p className='callout'>Integrating with Demand Response programs means integrating with each VPP and DERMS vendor operating those programs.</p>
-          <p className='callout'>Gravity Connect OEM partners are compatible with an array of programs managed by VPP partners.</p>
+          <p className='callout'>Integrating with Demand Response programs used to mean integrating with each VPP and DERMS vendor and building custom reports and enrollment flows for each program.</p>
+          <p className='callout'>With Gravity Connect, build a single integration that standardizes enrollment, near-real-time data streaming, and commands. Join our network of partners and programs with a single integration.</p>
 
         </Band>
 
@@ -62,33 +78,24 @@ export default function Home() {
         <Grid title="Why Gravity Connect">
           <Block>
             <img src={useBaseUrl('/img/flexible.png')} alt="..." />
-            <h3>Flexible & Customizable</h3>
-            <p>Support the right UX for each program with one integration, from direct install and pre-enrollment flows to command optimization algorithms.</p>
+            <h3>Purpose-built</h3>
+            <p>Gravity Connect is designed for every aspect of VPP-OEM integrations, including enrollment, near-real-time data streaming, and commands, and it’s easy to develop, with no custom XML.</p>
           </Block>
           <Block>
             <img src={useBaseUrl('/img/compatible.png')} alt="..." />
-            <h3>Widely Compatible</h3>
-            <p>Integrate once to join a network of OEMs and programs.</p>
+            <h3>Flexible and customizable</h3>
+            <p>Use a single integration to support the right user experience for each program, from one-click in-app onboarding and marketplace pre-enrollment flows to command optimization algorithms.</p>
           </Block>
           <Block>
             <img src={useBaseUrl('/img/reliable.png')} alt="..." />
             <h3>Reliable</h3>
-            <p>Certified partners undergo rigorous quality testing so they can provide dependable, predictable load shift where and when it’s needed.</p>
+            <p>Certified Partners undergo rigorous quality testing so they can provide dependable, predictable load shift where and when it’s needed.</p>
           </Block>
         </Grid>
 
-        <Cards title="Devices We Connect With">
-          <Card>
-            <h3>Thermostat</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
-          </Card>
-          <Card>
-            <h3>Water Heater</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
-          </Card>
-          <Card>
+        <Cards title="Device Types We Connect With">
+        <Card>
             <h3>Battery</h3>
-            <p>Stuff could go here? What if we put some text in here too?</p>
             <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
           </Card>
           <Card>
@@ -96,8 +103,19 @@ export default function Home() {
             <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
           </Card>
           <Card>
+            <h3>Water Heater</h3>
+            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+          </Card>
+          <Card>
+            <h3>Thermostat</h3>
+            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+          </Card>
+          <Card>
             <h3>Vehicle to Grid</h3>
             <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+          </Card>
+          <Card>
+            <p>... and more! Partner with us to support new device types</p>
           </Card>
         </Cards>
 
@@ -108,39 +126,39 @@ export default function Home() {
 
           <h5>Certification</h5>
 
-          <h2>Gravity Connect Certification</h2>
-          <p>Certified partners meet rigorous standards for both functionality and security.</p>
+          <h2>An Open Standard with Certification</h2>
+          <p>Gravity Connect is an open standard developed through a partnership between Virtual Peaker and DER OEMs.</p>
 
           <ul>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit maecenas vel ant.</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit maecenas vel ant.</li>
-            <li>Lorem ipsum dolor sit amet, consectetur adipiscing elit maecenas vel ant.</li>
+            <li>Available under the BSD license, the open-source specification can be used freely to support any energy initiative without vendor lock-in. </li>
+            <li>Certified partners meet rigorous standards for both functionality and security. The <a href={useBaseUrl('/docs/certification')}>optional certification process</a> verifies quality and promotes the integration on this site.</li>
+            <li>The specification is maintained by Virtual Peaker with contributions from partners across the industry, including many OEMs.</li>
           </ul>
 
         </Band>
 
         <FeatureSelector title="Why It's Better">
-          <FeatureSelectorItem headline="Purpose-built" image={useBaseUrl('/img/flexible.png')}>
-            <p>Gravity Connect is designed for every aspect of VPP-OEM integrations, from enrollment to commands.</p>
+          <FeatureSelectorItem headline="End-to-end support" image={useBaseUrl('/img/flexible.png')}>
+            <p>Gravity Connect supports a variety of device enrollment and onboarding flows for program designs including bring-your-own-device and direct install, unlike other open standards, which often exclude enrollment entirely.</p>
           </FeatureSelectorItem>
-          <FeatureSelectorItem headline="Quickly scalable" image={useBaseUrl('/img/compatible.png')}>
-            <p>Integrate once to join a growing network of OEMs and programs, without rebuilding for each new partner.</p>
+          <FeatureSelectorItem headline="Modern and responsive" image={useBaseUrl('/img/compatible.png')}>
+            <p>Gravity Connect uses a REST API with JSON payloads, OAuth 2.0 authentication, and webhooks for near-real-time control and visibility that supports advanced control algorithms, such as precise load shaping and energy arbitrage.</p>
           </FeatureSelectorItem>
-          <FeatureSelectorItem headline="Rapidly responsive" image={useBaseUrl('/img/reliable.png')}>
-            <p>Near-real-time control and visibility keep commands and telemetry moving with minimal latency.</p>
+          <FeatureSelectorItem headline="Consistent and standardized" image={useBaseUrl('/img/reliable.png')}>
+            <p>There’s no need to build custom commands and reports for each program; simply enable the applicable enrollment module(s) for each program.</p>
           </FeatureSelectorItem>
         </FeatureSelector>
 
         <Band background={useBaseUrl('/img/join.png')}>
 
           <h2>Join our efficient, sustainable energy ecosystem</h2>
-          <p>Access the guides or dive into the documentation.</p>
+          <p>Access the guide or dive into the documentation.</p>
 
-          <Link className='button button--outline button--lg margin-right--md' to='/docs/getting-started'>
-            Go to Guides
+          <Link className='button button--outline button--lg margin-right--md' to='/docs/introduction'>
+            User Guide
           </Link>
-          <Link className='button button--outline button--lg' to='/api'>
-            Read the Docs
+          <Link className='button button--outline button--lg' to='/device-partner-api'>
+            API Docs
           </Link>
 
         </Band>

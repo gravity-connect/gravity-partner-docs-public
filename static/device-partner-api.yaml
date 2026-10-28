@@ -1,0 +1,1018 @@
+openapi: 3.0.0
+info:
+  version: 2.0.6
+  title: Gravity Connect - Device Partner Endpoints
+  license:
+    name: BSD 3 Clause
+    url: https://gravity-connect.com/docs/license
+servers:
+  - url: 'https://example.com/v1'
+security:
+  - device_partner_api_auth:
+    - device_partner_basic_auth
+  - device_partner_user_auth:
+    - user_read
+
+tags:
+- name: Enrollment
+  description: The VPP uses these endpoints to enroll and unenroll devices from a program. Learn more about the available enrollment flows and how they combine these endpoints in the [User Guide](/docs/Integration%20Components/device-enrollment).
+- name: Data
+  description: The VPP uses these endpoints to read device data. Learn more about [data publishing](/docs/Integration%20Components/data-publishing) and [energy interval data](/docs/Integration%20Components/energy-interval-data) in the user guide.
+- name: Commands
+  description: The VPP uses these endpoints to schedule, cancel, and monitor demand response commands. Learn more about commands in the [User Guide](/docs/Integration%20Components/dr-commands).
+- name: Group Management
+  description: The VPP uses these endpoints to edit device membership in groups. Learn more about groups in the [User Guide](/docs/Integration%20Components/group-management).
+
+paths:
+  '/devices':
+      get:
+        summary: Read current user's devices
+        description: Used to discover which devices the VPP can enroll in the program.
+        operationId: readCurrentUserDevices
+        tags:
+          - Enrollment
+        security:
+          - device_partner_user_auth: [user_read]
+        responses:
+          '200':
+            description: successful operation
+            content:
+              application/json:
+                  schema:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceDetails'
+          '400':
+            $ref: "#/components/responses/badRequest"
+          '401':
+            $ref: "#/components/responses/unauthorized"
+          default:
+            description: unexpected error
+            content:
+              application/json:
+                schema:
+                  $ref: '#/components/schemas/Details'
+  '/device/{DEVICE_UID}/user':
+    get:
+      summary: Describe device's user
+      description: Used to discover details about the owner of a device.
+      operationId: readDeviceUser
+      tags:
+        - Enrollment
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/deviceUID"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/UserDetails"
+
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/device-list':
+    get:
+      summary: Read list of devices
+      description: Used to retrieve a list of all devices enrolled in or eligible for a program.
+      operationId: readDeviceList
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      tags:
+        - Enrollment
+      parameters:
+        - name: page
+          in: query
+          required: true
+          description: The page number to retrieve (pages start at 0)
+          schema:
+            type: integer
+        - name: pageSize
+          in: query
+          required: false
+          description: The number of devices to return per page
+          schema:
+            type: integer
+            default: 1000
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: object
+                required:
+                  - page
+                  - pageSize
+                  - count
+                  - devices
+                properties:
+                  page:
+                    type: integer
+                  pageSize:
+                    type: integer
+                    description: The number of devices requested per page
+                  count:
+                    type: integer
+                    description: The number of devices returned in this page
+                  devices:
+                    type: array
+                    items:
+                      $ref: '#/components/schemas/DeviceDetails'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/houses':
+    post:
+      summary: Publish houses for installation
+      description: Used to publish service addresses for enrollment.
+      operationId: publishHouseList
+      tags:
+        - Enrollment
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              type: array
+              description: "Array of addresses and pairing codes. NOTE: This array will include all houses with devices needing to be installed, not just new houses from that day."
+              items:
+                type: object
+                required:
+                  - serviceAddress
+                  - pairingCode
+                properties:
+                  devices:
+                    type: array
+                    description: Included if the Device Partner needs more details on which device(s) need to be installed. If not included, the Device Partner can infer this information based on the program.
+                    items:
+                      type: object
+                      properties:
+                        kind:
+                          $ref: "#/components/schemas/DeviceKindEnum"
+                        type:
+                          type: string
+                          description: model name/number
+                  pairingCode:
+                    type: string
+                    description: "The current format is:\n* 2 alphanumeric characters to denote the pairing code prefix representing the program\n* 5 random numeric characters that VP uses to link the user to an existing device\n* 1 check digit. This check digit will be generated following the Luhn algorithm to ensure the 5 digit number is valid. This validation can be performed on the Device Partner side to provide immediate feedback, and will also be done by the VPP."
+                    example: 'A1012344'
+                  serviceAddress:
+                    $ref: "#/components/schemas/ServiceAddress"
+      responses:
+        '200':
+          $ref: '#/components/responses/accepted'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/subscription':
+    post:
+      summary: Manage subscription to device publishing
+      description: Used to subscribe to or unsubscribe from data publishing for a specific device.
+      operationId: modifySubscription
+      tags:
+        - Enrollment
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - state
+                  - uid
+                properties:
+                  state:
+                    type: string
+                    enum:
+                      - register
+                      - unregister
+                  uid:
+                    type: string
+                    description: The unique identifier for the target device within the Device Partner's system
+                  secret:
+                    type: string
+                    description: DEVICE_PUBLISH_SECRET; passed when the VPP subscribes to data from this device, and used by the Device Partner to create the HMAC for publishing device data to the VPP
+            examples:
+              register:
+                summary: Registering/subscribing a device and sharing secret
+                value:
+                  state: register
+                  uid: some-device-uid
+                  secret: some-device-secret
+              unregister:
+                summary: Stopping publishing for a device
+                value:
+                  state: unregister
+                  uid: some-device-uid
+      responses:
+        '200':
+          description: successful operation
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/device/{DEVICE_UID}':
+    get:
+      summary: Read device details
+      description: Used to find details about a device with a known UID.
+      operationId: readDeviceDetails
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      tags:
+        - Data
+      parameters:
+        - $ref: "#/components/parameters/deviceUID"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/DeviceDetails'
+
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/device/{DEVICE_UID}/{SIGNAL_OR_SETTING}/{DATA_KEY}':
+    get:
+      summary: Read signal/setting
+      description: Used to read device signals and settings.
+      operationId: readSignalSetting
+      tags:
+        - Data
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/deviceUID"
+        - $ref: "#/components/parameters/signalSetting"
+        - $ref: "#/components/parameters/dataKey"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/SignalSetting"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        '404':
+          $ref: "#/components/responses/notFound"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+    put:
+      summary: Update signal/setting
+      description: Used to modify device signals or settings.
+      operationId: updateSignalSetting
+      tags:
+        - Data
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/deviceUID"
+        - $ref: "#/components/parameters/signalSetting"
+        - $ref: "#/components/parameters/dataKey"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                $ref: "#/components/schemas/SignalSetting"
+
+      responses:
+        '200':
+          description: Success
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/device/{DEVICE_UID}/energy':
+    get:
+      summary: Energy interval data
+      description: Used to retrieve energy interval data, which is separate from signals and settings. Learn more in the [User Guide](/docs/Integration%20Components/energy-interval-data).
+      operationId: readDeviceEnergyInterval
+      tags:
+        - Data
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/deviceUID"
+        - name: start
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A `start` in the past should still be considered valid if startTime + duration is still in the future.
+        - name: end
+          in: query
+          required: true
+          schema:
+            type: string
+            format: date-time
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+        - name: duration
+          in: query
+          required: true
+          schema:
+            type: integer
+          description: Length of event in seconds. The value should be greater than 0.
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+                            schema:
+                              type: array
+                              items:
+                                $ref: '#/components/schemas/EnergyInterval'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/command':
+    post:
+      summary: Send command
+      description: Used to send a demand response command to an individual device or to a group.
+      operationId: sendCommand
+      tags:
+        - Commands
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - targeting
+                  - uid
+                  - startTime
+                  - duration
+                properties:
+                  targeting:
+                    type: string
+                    enum:
+                      - group
+                      - device
+                  uid:
+                    type: string
+                    description: Group or device uid
+                  kind:
+                    $ref: "#/components/schemas/DeviceKindEnum"
+                  startTime:
+                    type: string
+                    format: date-time
+                    description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset. A `start` in the past should still be considered valid if startTime + duration is still in the future.
+                  duration:
+                    type: integer
+                    description: Length of event in seconds. The value should be greater than 0. If a Device Partner imposes a maximum event duration, the event should run until that maximum is reached; that is, `startTime` + maximum duration.
+                  command:
+                    type: object
+                    description: Varies by device kind. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications).
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  type: object
+                  required:
+                    - refId
+                  properties:
+                    refId:
+                      type: string
+                      description: A unique ID for that command within the Device Partner's system, to be used when reading/reporting command state or cancelling
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/command/{COMMAND_REFERENCE_ID}':
+    get:
+      summary: Read command state
+      description: Used to read the state of a command (individual or group).
+      operationId: readCommandState
+      tags:
+        - Commands
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - name: COMMAND_REFERENCE_ID
+          in: path
+          required: true
+          description: The id of the command being read
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommandState"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+    delete:
+      summary: Cancel command
+      description: Used to cancel a command (individual or group).
+      operationId: cancelCommand
+      tags:
+        - Commands
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - name: COMMAND_REFERENCE_ID
+          in: path
+          required: true
+          description: The id of the command being cancelled
+          schema:
+            type: string
+      responses:
+        '200':
+          description: Success
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CommandState"
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/command/{COMMAND_REFERENCE_ID}/opt-out':
+    post:
+      summary: Command opt-out (group)
+      description: Used to communicate that particular devices within a group have opted out of a command, and the command should be canceled for only those devices. (Opt-outs for individual commands are done by canceling the command.)
+      operationId: commandOptOut
+      tags:
+        - Commands
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - name: COMMAND_REFERENCE_ID
+          in: path
+          required: true
+          description: The id of the command
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - deviceUids
+                properties:
+                  deviceUids:
+                    type: array
+                    description: Array of device UIDs requesting event cancellation
+                    items:
+                      type: string
+      responses:
+        '200':
+          $ref: '#/components/responses/accepted'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/group':
+    post:
+      summary: Create group
+      description: Used to create a new group of devices.
+      operationId: createGroup
+      tags:
+        - Group Management
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  deviceUids:
+                    type: array
+                    description: Array of device UIDs for the Device Partner to assign to the newly created group. Can be an empty array
+                    items:
+                      type: string
+                  name:
+                    type: string
+                    description: Human-readable name of group
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                  type: object
+                  required:
+                    - uid
+                  properties:
+                    uid:
+                      type: string
+                      description: A unique ID for that group within the Device Partner's system, to be used when modifying or sending commands to the group
+                    invalidDevices:
+                      type: array
+                      description: Array of device UIDs that couldn't be located or were otherwise not added to the group
+                      items:
+                        type: string
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/group/{GROUP_ID}':
+    get:
+      summary: Read group details
+      description: Used to learn group details, including which devices are currently in a group.
+      operationId: readGroup
+      tags:
+        - Group Management
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/groupID"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetails'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+    put:
+      summary: Update group details
+      description: Used to update group details, including assigning devices to the group.
+      operationId: updateGroup
+      tags:
+        - Group Management
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/groupID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                properties:
+                  deviceUids:
+                    type: array
+                    description: Updated array of deviceUids which will overwrite the existing array (as opposed to adding and removing a list of deviceUids)
+                    items:
+                      type: string
+                  name:
+                    type: string
+                    description: Human-readable name of group
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/GroupDetails"
+                  - properties:
+                      invalidDevices:
+                        type: array
+                        description: Array of device UIDs that couldn't be located or were otherwise not added to the group
+                        items:
+                          type: string
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+    delete:
+      summary: Delete group
+      description: Used to delete a group. Returns the list of devices that were within the group at time of deletion.
+      operationId: deleteGroup
+      tags:
+        - Group Management
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/groupID"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/GroupDetails'
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+  '/group/{GROUP_ID}/devices':
+    post:
+      summary: Manage devices in group
+      description: Used to add devices to a group or remove devices from a group.
+      operationId: manageGroupDevices
+      tags:
+        - Group Management
+      security:
+        - device_partner_api_auth: [basic_partner_read_write]
+      parameters:
+        - $ref: "#/components/parameters/groupID"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+                type: object
+                required:
+                  - deviceUids
+                  - action
+                properties:
+                  deviceUids:
+                    type: array
+                    description: Array of device UIDs for the Device Partner to assign to or remove from the group
+                    items:
+                      type: string
+                  action:
+                    type: string
+                    enum:
+                      - add
+                      - remove
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                allOf:
+                  - $ref: "#/components/schemas/GroupDetails"
+                  - properties:
+                      invalidDevices:
+                        type: array
+                        description: Array of device UIDs that couldn't be located or were otherwise not added to the group
+                        items:
+                          type: string
+        '400':
+          $ref: "#/components/responses/badRequest"
+        '401':
+          $ref: "#/components/responses/unauthorized"
+        default:
+          description: unexpected error
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Details'
+
+components:
+  parameters:
+    deviceUID:
+      name: DEVICE_UID
+      in: path
+      required: true
+      description: The unique identifier for the target device within the Device Partner's system
+      schema:
+        type: string
+    signalSetting:
+      name: SIGNAL_OR_SETTING
+      in: path
+      required: true
+      description: 'Whether the data type is a signal or a setting'
+      schema:
+        type: string
+        enum:
+          - signal
+          - setting
+    dataKey:
+      name: DATA_KEY
+      in: path
+      required: true
+      description: 'The signal/setting type being read; varies by device type. See the [Device Type Specifications](/docs/Integration%20Components/device-type-specifications).'
+      schema:
+        type: string
+    groupID:
+      name: GROUP_ID
+      in: path
+      required: true
+      description: The id of the device being targeted
+      schema:
+        type: string
+  schemas:
+    ServiceAddress:
+      type: object
+      required:
+        - streetAddress
+        - city
+        - state
+        - postalCode
+        - country
+      properties:
+        streetAddress:
+          type: string
+        streetAddress2:
+          type: string
+          description: Typically used to indicate apartment or suite number; often not used
+        city:
+          type: string
+        state:
+          type: string
+          description: Within the US, passed as a 2 letter abbreviation
+        postalCode:
+          type: string
+        country:
+          type: string
+          description: A 2 letter indication of country, following [ISO 3166-1 alpha-2](https://en.wikipedia.org/wiki/ISO_3166-1_alpha-2)
+    UserDetails:
+      type: object
+      required:
+        - userId
+      properties:
+        userId:
+          type: string
+          description: Unique identifier for the user within the Device Partner's system
+        accountNumber:
+          type: string
+          description: Utility customer identifier (if available)
+        name:
+          type: string
+        email:
+          type: string
+        deviceUids:
+          type: array
+          items:
+            type: string
+        serviceAddress:
+          $ref: '#/components/schemas/ServiceAddress'
+    DeviceDetails:
+      type: object
+      required:
+        - uid
+        - kind
+        - type
+        - isSubscribed
+      properties:
+        uid:
+          type: string
+          description: "`DEVICE_UID`, unique within the Device Partner's system"
+        kind:
+          $ref: '#/components/schemas/DeviceKindEnum'
+        name:
+          type: string
+        type:
+          type: string
+          description: model name/number
+        serialNumber:
+          type: string
+        isSubscribed:
+          type: boolean
+          description: If true, the VPP has subscribed to data publishing for this device
+        isInstalled:
+          type: boolean
+          default: true
+          description: If true, the device has been installed and is ready to participate. Typically, devices that are not installed have recently been purchased and will be installed in the near future.
+    DeviceKindEnum:
+      type: string
+      enum:
+        - HWH
+        - TSTAT
+        - BATTERY
+        - EVSE
+        - V2G
+    CommandState:
+      type: object
+      required:
+        - state
+        - time
+      properties:
+        state:
+          type: string
+          description: "State of the command:\n* PENDING - scheduled but not started\n* IN_PROGRESS - when pending command hits start time\n* FAILED - something has prevented the command from being scheduled or started\n* OPT_OUT - device owner has specified that they don’t want to participate in an event\n* CANCELLED - utility has said they don’t want the event to happen\n* COMPLETED - end time of event has been reached without becoming CANCELLED or OPT_OUT"
+          enum:
+              - PENDING
+              - IN_PROGRESS
+              - FAILED
+              - OPT_OUT
+              - CANCELLED
+              - COMPLETED
+        description:
+          type: string
+          description: Human-readable status
+        time:
+          type: string
+          format: date-time
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+        refId:
+          type: string
+          description: Command Reference ID
+    SignalSetting:
+      type: object
+      required:
+        - key
+        - value
+        - time
+      properties:
+        key:
+          type: string
+        value:
+          oneOf:
+            - type: string
+            - type: number
+        time:
+          type: string
+          format: date-time
+          description: A datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+    GroupDetails:
+      type: object
+      required:
+        - uid
+        - devices
+      properties:
+        uid:
+          type: string
+          description: A unique ID for that group within the Device Partner's system
+        deviceUids:
+          type: array
+          description: The UIDs of the devices within that group
+          items:
+            type: string
+        name:
+          type: string
+          description: Human-readable name of group
+    Details:
+      type: object
+      required:
+        - message
+      properties:
+        message:
+          type: string
+          description: A human-readable response. Because there's no standard for what is included or how information should be formatted, this should not be parsed and utilized programmatically.
+    EnergyInterval:
+      type: object
+      required:
+        - value
+        - time
+        - duration
+      properties:
+        value:
+          type: integer
+          description: The energy consumed between `time` and `time + duration`, in units of watt-hours (Wh)
+        time:
+          type: string
+          format: date-time
+          description: \`time\` represents the start of the interval. Intervals should be "clock-aligned" (meaning on even time-boundaries, e.g., 00:00:00, 00:15:00, 00:30:00, etc). \`time\` is a datetime following the [RFC 3339, section 5.6](https://datatracker.ietf.org/doc/html/rfc3339#section-5.6) specification, such as '2017-07-21T17:32:28Z'. The timezone is always zero UTC offset.
+        duration:
+          type: integer
+          description: Length of interval in seconds. The value should be greater than 0.
+  responses:
+    accepted:
+      description: Message has been accepted for processing
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details"
+    badRequest:
+      description: Request was not properly formatted
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details"
+    unauthorized:
+      description: The request was not properly authorized
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details"
+    notFound:
+      description: "The data could not be found. Potentially the device hasn't reported this datapoint yet or the device is offline and the Device Partner does not store the most recent value"
+      content:
+        application/json:
+          schema:
+              $ref: "#/components/schemas/Details"
+  securitySchemes:
+    device_partner_api_auth:
+      type: oauth2
+      # description: This API uses OAuth2.0 with clientCredentials grant flow and .
+      flows:
+        clientCredentials:
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            basic_partner_read_write: conducts all actions on the Device Partner's behalf
+
+    device_partner_user_auth:
+      type: oauth2
+      description: Used to discover devices with the OAuth enrollment flow.
+      flows:
+        authorizationCode:
+          authorizationUrl: https://example.com/oauth/authorize
+          tokenUrl: https://example.com/oauth/token
+          scopes:
+            user_read: read details about new user

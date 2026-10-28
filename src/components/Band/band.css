@@ -1,7 +1,6 @@
 .band{
     position: relative;
     margin-block:var(--gc-margin-vertical);
-    min-height: 650px;
 
     &:before{
         content: '';

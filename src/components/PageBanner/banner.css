@@ -40,5 +40,30 @@
             padding-top: calc(5vh + 60px);
             padding-bottom: 7vh;
         }
+
+        .banner__logos{
+            padding: 48px 0 48px !important;
+            border-top:1px solid var(--gc-border-grey);
+            position: relative;
+
+            &:before,
+            &:after{
+                content: '';
+                width: 10px;
+                height: 10px;
+                background: var(--gc-border-grey);
+                border-radius: 100%;
+                position: absolute;
+                top:-5px;
+            }
+
+            &:before{
+                left:-5px;
+            }
+
+            &:after{
+                right:-5px;
+            }
+        }
     }
 }
