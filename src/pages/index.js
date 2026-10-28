@@ -157,7 +157,7 @@ export default function Home() {
           <Link className='button button--outline button--lg margin-right--md' to='/docs/introduction'>
             User Guide
           </Link>
-          <Link className='button button--outline button--lg' to='/api'>
+          <Link className='button button--outline button--lg' to='/device-partner-api'>
             API Docs
           </Link>
 
