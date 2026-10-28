@@ -16,6 +16,7 @@ const config: Config = {
 
   organizationName: 'gravity-connect',
   projectName: 'gravity-partner-docs-public',
+  deploymentBranch: '2026-08-import-content',
 
   onBrokenLinks: 'throw',
 
