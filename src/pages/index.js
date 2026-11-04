@@ -70,24 +70,24 @@ export default function Home() {
 
           <h5>VPPs and Demand Response Programs</h5>
           <p className='callout'>Integrating with Demand Response programs used to mean integrating with each VPP and DERMS vendor and building custom reports and enrollment flows for each program.</p>
-          <p className='callout'>With Gravity Connect, build a single integration that standardizes enrollment, near-real-time data streaming, and commands. Join our network of partners and programs with a single integration.</p>
+          <p className='callout'>With Gravity Connect, build a single integration that standardizes enrollment, data streaming, and commands to access our network of partners and programs.</p>
 
         </Band>
 
 
         <Grid title="Why Gravity Connect">
           <Block>
-            <img src={useBaseUrl('/img/flexible.png')} alt="..." />
+            <img src={useBaseUrl('/img/2-compatible.svg')} alt="..." />
             <h3>Purpose-built</h3>
-            <p>Gravity Connect is designed for every aspect of VPP-OEM integrations, including enrollment, near-real-time data streaming, and commands, and it’s easy to develop, with no custom XML.</p>
+            <p>Gravity Connect is designed for every aspect of VPP-OEM integrations, including enrollment, low-latency data streaming, and commands, and it’s easy to develop, with no custom XML.</p>
           </Block>
           <Block>
-            <img src={useBaseUrl('/img/compatible.png')} alt="..." />
+            <img src={useBaseUrl('/img/1-flex-cust.svg')} alt="..." />
             <h3>Flexible and customizable</h3>
             <p>Use a single integration to support the right user experience for each program, from one-click in-app onboarding and marketplace pre-enrollment flows to command optimization algorithms.</p>
           </Block>
           <Block>
-            <img src={useBaseUrl('/img/reliable.png')} alt="..." />
+            <img src={useBaseUrl('/img/3-reliable-A.svg')} alt="..." />
             <h3>Reliable</h3>
             <p>Certified Partners undergo rigorous quality testing so they can provide dependable, predictable load shift where and when it’s needed.</p>
           </Block>
@@ -96,32 +96,29 @@ export default function Home() {
         <Cards title="Device Types We Connect With">
         <Card>
             <h3>Battery</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+            <img src={useBaseUrl('/img/GC-icons_devices_battery.svg')} alt="..." />
           </Card>
           <Card>
             <h3>EVSE</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+            <img src={useBaseUrl('/img/GC-icons_devices_evse.svg')} alt="..." />
           </Card>
           <Card>
-            <h3>Water Heater</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+            <h3>Hot Water Heater</h3>
+            <img src={useBaseUrl('/img/GC-icons_devices_wtrhtr.svg')} alt="..." />
           </Card>
           <Card>
             <h3>Thermostat</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
+            <img src={useBaseUrl('/img/GC-icons_devices_thermostat.svg')} alt="..." />
           </Card>
           <Card>
             <h3>Vehicle to Grid</h3>
-            <img src={useBaseUrl('/img/thermostat.svg')} alt="..." />
-          </Card>
-          <Card>
-            <p>... and more! Partner with us to support new device types</p>
+            <img src={useBaseUrl('/img/GC-icons_devices_v2g.svg')} alt="..." />
           </Card>
         </Cards>
 
         <Band
           color='black'
-          image={useBaseUrl('/img/certified.png')}
+          image={useBaseUrl('/img/GC Cert Image.svg')}
         >
 
           <h5>Certification</h5>
@@ -138,14 +135,14 @@ export default function Home() {
         </Band>
 
         <FeatureSelector title="Why It's Better">
-          <FeatureSelectorItem headline="End-to-end support" image={useBaseUrl('/img/flexible.png')}>
+          <FeatureSelectorItem headline="End-to-end support" image={useBaseUrl('/img/GC-why-1.png')}>
             <p>Gravity Connect supports a variety of device enrollment and onboarding flows for program designs including bring-your-own-device and direct install, unlike other open standards, which often exclude enrollment entirely.</p>
           </FeatureSelectorItem>
-          <FeatureSelectorItem headline="Modern and responsive" image={useBaseUrl('/img/compatible.png')}>
+          <FeatureSelectorItem headline="Modern and responsive" image={useBaseUrl('/img/GC-why-2.png')}>
             <p>Gravity Connect uses a REST API with JSON payloads, OAuth 2.0 authentication, and webhooks for near-real-time control and visibility that supports advanced control algorithms, such as precise load shaping and energy arbitrage.</p>
           </FeatureSelectorItem>
-          <FeatureSelectorItem headline="Consistent and standardized" image={useBaseUrl('/img/reliable.png')}>
-            <p>There’s no need to build custom commands and reports for each program; simply enable the applicable enrollment module(s) for each program.</p>
+          <FeatureSelectorItem headline="Consistent and standardized" image={useBaseUrl('/img/GC-why-3.png')}>
+            <p>Simply enable the applicable enrollment modules for each program instead of building custom commands and reports every time.</p>
           </FeatureSelectorItem>
         </FeatureSelector>
 

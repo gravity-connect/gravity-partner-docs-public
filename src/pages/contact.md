@@ -11,4 +11,4 @@ Gravity Connect gets better with every partner who builds on it and we welcome c
 **Want to contribute to the success of powering reliable demand response programs?**
 
 
-Email the Gravity Connect team at [gravity-connect@virtual-peaker.com](mailto:gravity-connect@virtual-peaker.com).
+Email the Gravity Connect team at **[gravity-connect@virtual-peaker.com](mailto:gravity-connect@virtual-peaker.com)**.
