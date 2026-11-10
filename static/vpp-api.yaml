@@ -283,7 +283,6 @@ components:
         - HWH
         - TSTAT
         - V2G
-        - STORAGE-HVAC
     DeviceDetails:
       type: object
       required:
