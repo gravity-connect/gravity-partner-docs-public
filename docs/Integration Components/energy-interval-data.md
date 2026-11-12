@@ -20,7 +20,7 @@ Providers typically use this data for:
 
 ### Endpoint Query Parameters
 * `start` is inclusive and `end` is exclusive
-* The response should include all intervals that overlap with this window
+* The response should include all complete 15-minute intervals within this window that overlap `start` and do not overlap `end`. This includes the interval containing `start`, even if it begins before `start`.
 * `duration` = duration of each interval, in seconds
    * Support for 900 second (15 minute) intervals is required
    * Support for other typical intervals (e.g., 300, 3600) is optional

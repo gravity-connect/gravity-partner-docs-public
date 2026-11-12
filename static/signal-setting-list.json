@@ -133,7 +133,7 @@
       "isSignal": false,
       "internalKeys": ["battery-min-reserve-percent-mfg"],
       "docs": {
-        "description": "The minimum state of charge, in %, that this device can reach during DR events. Only include a reserve value set by the homeowner if it is respected during DR events.",
+        "description": "The minimum state of charge, in % (0 - 100), that this device can reach during DR events. Only include a reserve value set by the homeowner if it is respected during DR events.",
         "unit": "Percentage"
       }
     }

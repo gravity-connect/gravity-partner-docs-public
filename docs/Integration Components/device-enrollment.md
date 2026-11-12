@@ -47,7 +47,7 @@ The OAuth device discovery flow works as follows:
 6. The Device Partner associates the devices with the correct VPP program in their backend and completes any other required internal onboarding logic.
 7. The Device Partner completes the OAuth callback to the VPP.
 8. The VPP discovers devices using the OAuth token provided.
-9. The VPP subscribes to devices for data publishing and provides a DEVICE_PUBLISH_SECRET.
+9. The VPP subscribes to devices for data publishing and provides a `DEVICE_PUBLISH_SECRET`.
 
 The VPP creates a unique `client_id` for each utility program. This ID is passed in the OAuth link to associate devices with the correct program.
 
