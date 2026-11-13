@@ -2,22 +2,9 @@ import React from 'react';
 import Link from '@docusaurus/Link';
 import useBaseUrl from '@docusaurus/useBaseUrl';
 import {useThemeConfig} from '@docusaurus/theme-common';
-import LinkedInIcon from '@theme/Icon/Socials/LinkedIn';
-import XIcon from '@theme/Icon/Socials/X';
-import BlueskyIcon from '@theme/Icon/Socials/Bluesky';
-
-const MONOCHROME_ICON_STYLE = {'--dark': 'currentColor', '--light': 'currentColor'};
-
-const SOCIALS = [
-  {label: 'LinkedIn', href: '#', Icon: LinkedInIcon},
-  {label: 'X', href: '#', Icon: XIcon},
-  {label: 'Bluesky', href: '#', Icon: BlueskyIcon},
-];
 
 const LEGAL_LINKS = [
-  {label: 'Privacy Policy', href: '#'},
-  {label: 'Terms', href: '#'},
-  {label: 'Cookie Preferences', href: '#'},
+  {label: 'License', to: '/docs/license'},
 ];
 
 function FooterNavLink({item}) {
@@ -62,25 +49,6 @@ export default function Footer() {
           )}
         </div>
 
-        <div className='footer-row footer-row--social'>
-          <span className='footer-social-label'>Let&apos;s Connect</span>
-
-          <div className='footer-social-icons'>
-            {SOCIALS.map(({label, href, Icon}) => (
-              <a
-                key={label}
-                href={href}
-                className='footer-social-icon'
-                aria-label={label}
-                target='_blank'
-                rel='noopener noreferrer'
-              >
-                <Icon style={MONOCHROME_ICON_STYLE} />
-              </a>
-            ))}
-          </div>
-        </div>
-
         <span className='footer-divider' aria-hidden='true' />
 
         <div className='footer-row footer-row--legal'>
@@ -91,7 +59,7 @@ export default function Footer() {
           <ul className='footer-legal-links'>
             {LEGAL_LINKS.map((item) => (
               <li key={item.label}>
-                <a href={item.href}>{item.label}</a>
+                <Link to={item.to}>{item.label}</Link>
               </li>
             ))}
           </ul>

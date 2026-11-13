@@ -7,4 +7,9 @@
     .dUccDl{
         border-bottom-color: rgb(218, 221, 225);
     }
+    
+    div{div{
+        scroll-margin-top: calc(var(--ifm-navbar-height, 60px))
+    }}
+
 }

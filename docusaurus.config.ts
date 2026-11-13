@@ -12,10 +12,11 @@ const config: Config = {
   },
 
   url: 'https://gravity-connect.github.io',
-  baseUrl: '/gravity-docs-docusaurus/',
+  baseUrl: '/gravity-partner-docs-public/',
+  trailingSlash: false,
 
   organizationName: 'gravity-connect',
-  projectName: 'gravity-docs-docusaurus',
+  projectName: 'gravity-partner-docs-public',
 
   onBrokenLinks: 'throw',
 
@@ -81,21 +82,26 @@ const config: Config = {
           type: 'docSidebar',
           sidebarId: 'guidesSidebar',
           position: 'right',
-          label: 'Guides',
+          label: 'Guide',
         },
         {
-          to: '/api',
-          label: 'Docs',
+          type: 'dropdown',
+          label: 'Specification',
           position: 'right',
+          items: [
+            {
+              to: '/device-partner-api',
+              label: 'Device Partner Specification',
+            },
+            {
+              to: '/vpp-api',
+              label: 'VPP Specification',
+            },
+          ],
         },
         {
           to: '/blog',
-          label: 'Resources',
-          position: 'right',
-        },
-        {
-          to: '/support',
-          label: 'Support',
+          label: 'News',
           position: 'right',
         },
         {
@@ -103,6 +109,11 @@ const config: Config = {
           label: 'About',
           position: 'right',
         },
+        {
+          to: '/contact',
+          label: 'Contact',
+          position: 'right',
+        }
       ],
     },
     footer: {
@@ -116,25 +127,25 @@ const config: Config = {
       },
       links: [
         {
-          label: 'Guides',
-          to: '/docs/getting-started',
+          label: 'Guide',
+          to: '/docs/introduction',
         },
         {
-          label: 'Docs',
-          to: '/api',
+          label: 'Specification',
+          to: '/device-partner-api',
         },
         {
-          label: 'Resources',
+          label: 'News',
           to: '/blog',
-        },
-        {
-          label: 'Support',
-          to: '/support',
         },
         {
           label: 'About',
           to: '/about',
         },
+        {
+          label: 'Contact',
+          to: '/contact',
+        }
       ],
       copyright: `Copyright © ${new Date().getFullYear()} Virtual Peaker, Inc. All rights reserved.`,
     },

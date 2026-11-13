@@ -80,38 +80,6 @@
     text-decoration: underline;
 }
 
-.footer-row--social{
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
-}
-
-.footer-social-label{
-    font-weight: 600;
-}
-
-.footer-social-icons{
-    display: flex;
-    gap: 12px;
-}
-
-.footer-social-icon{
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    width: 36px;
-    height: 36px;
-    border-radius: 100%;
-    border: 1px solid var(--gc-border-grey);
-    color: var(--gc-color-black);
-    font-size: 16px;
-}
-
-.footer-social-icon:hover{
-    background: var(--gc-color-black);
-    color: var(--ifm-color-primary);
-}
-
 .footer-copyright{
     font-size: .9rem;
 }
